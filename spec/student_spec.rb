@@ -12,6 +12,7 @@ describe Student do
 
   let(:pat) {Student.new}
   let(:sam) {Student.new}
+  let(:jess) {Student.new}
   let(:attributes) {
     {
       :id => 1,
@@ -115,8 +116,8 @@ describe Student do
       end
     end
 
-    describe '.first_student_in_grade_12' do
-      it 'returns the first student in grade 12' do
+    describe '.first_student_in_grade_10' do
+      it 'returns the first student in grade 10' do
         pat.name = "Pat"
         pat.grade = 12
         pat.id = 1
