@@ -12,6 +12,7 @@ describe Student do
 
   let(:pat) {Student.new}
   let(:sam) {Student.new}
+  let(:jess) {Student.new}
   let(:attributes) {
     {
       :id => 1,
@@ -20,7 +21,7 @@ describe Student do
     }
   }
 
-  describe 'attributes' do 
+  describe 'attributes' do
     it 'has an id, name, grade' do
       pat.id = attributes[:id]
       pat.name = attributes[:name]
@@ -52,8 +53,8 @@ describe Student do
     end
   end
 
-  describe "#save" do 
-    it 'saves an instance of the Student class to the database' do 
+  describe "#save" do
+    it 'saves an instance of the Student class to the database' do
       pat.save
       expect(DB[:conn].execute("SELECT * FROM students")).to eq([[1, nil, nil]])
     end
@@ -70,7 +71,7 @@ describe Student do
     end
   end
 
-  describe 'retrieving data from the db' do 
+  describe 'retrieving data from the db' do
     describe '.find_by_name' do
 
       it 'returns an instance of student that matches the name from the DB' do
@@ -84,8 +85,8 @@ describe Student do
       end
     end
 
-    describe '.all' do 
-      it 'returns all student instances from the db' do 
+    describe '.all' do
+      it 'returns all student instances from the db' do
         pat.name = "Pat"
         pat.grade = 12
         pat.save
@@ -93,14 +94,14 @@ describe Student do
         sam.grade = 10
         sam.save
 
-        all_from_db = Student.all 
+        all_from_db = Student.all
         expect(all_from_db.size).to eq(2)
         expect(all_from_db.last).to be_an_instance_of(Student)
-        expect(all_from_db.any? {|student| student.name == "Sam"}.to eq(true)         
+        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)
       end
     end
   end
-  
+
   describe '.students_below_12th_grade' do
       it 'returns an array of all students in grades 11 or below' do
         pat.name = "Pat"
@@ -115,8 +116,8 @@ describe Student do
       end
     end
 
-    describe '.first_student_in_grade_12' do
-      it 'returns the first student in grade 12' do
+    describe '.first_student_in_grade_10' do
+      it 'returns the first student in grade 10' do
         pat.name = "Pat"
         pat.grade = 12
         pat.id = 1
