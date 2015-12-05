@@ -12,6 +12,7 @@ describe Student do
 
   let(:pat) {Student.new}
   let(:sam) {Student.new}
+  let(:jess) {Student.new}
   let(:attributes) {
     {
       :id => 1,
@@ -96,7 +97,7 @@ describe Student do
         all_from_db = Student.all 
         expect(all_from_db.size).to eq(2)
         expect(all_from_db.last).to be_an_instance_of(Student)
-        expect(all_from_db.any? {|student| student.name == "Sam"}.to eq(true))        
+        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)        
       end
     end
   end
@@ -132,9 +133,9 @@ describe Student do
         jess.id = 3
         jess.save
 
-        first_student = Student.first_student_in_grade_10
-        expect(first_student.id).to eq(2)
-        expect(first_student.name).to eq("Sam")
+        first_student = Student.first_student_in_grade_12
+        expect(first_student.id).to eq(1)
+        expect(first_student.name).to eq("Pat")
       end
     end
 
