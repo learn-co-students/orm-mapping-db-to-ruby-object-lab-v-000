@@ -43,11 +43,12 @@ class Student
     end
   end
 
-  def self.first_student_in_grade_12
+  def self.first_student_in_grade_10
     sql = <<-sql
       SELECT * 
       FROM students
-      WHERE grade = 12;
+      WHERE grade = 10
+      ORDER BY students.id ASC LIMIT 1;
     sql
     find = DB[:conn].execute(sql).map do |row|
       self.new_from_db(row)

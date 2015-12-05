@@ -116,8 +116,8 @@ describe Student do
       end
     end
 
-    describe '.first_student_in_grade_12' do
-      it 'returns the first student in grade 12' do
+    describe '.first_student_in_grade_10' do
+      it 'returns the first student in grade 1' do
         pat.name = "Pat"
         pat.grade = 12
         pat.id = 1
@@ -133,9 +133,9 @@ describe Student do
         jess.id = 3
         jess.save
 
-        first_student = Student.first_student_in_grade_12
-        expect(first_student.id).to eq(1)
-        expect(first_student.name).to eq("Pat")
+        first_student = Student.first_student_in_grade_10
+        expect(first_student.id).to eq(2)
+        expect(first_student.name).to eq("Sam")
       end
     end
 
