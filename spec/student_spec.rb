@@ -96,7 +96,7 @@ describe Student do
         all_from_db = Student.all 
         expect(all_from_db.size).to eq(2)
         expect(all_from_db.last).to be_an_instance_of(Student)
-        expect(all_from_db.any? {|student| student.name == "Sam"}.to eq(true)         
+        expect(all_from_db.any? {|student| student.name == "Sam"}.to eq(true))        
       end
     end
   end
@@ -151,4 +151,5 @@ describe Student do
         expect(all_in_9.size).to eq(1)
       end
     end
-end
+  end
+
