@@ -143,7 +143,7 @@ describe Student do
         sam.save
 
         all_in_9 = Student.count_all_students_in_grade_9
-        expect(all_in_9.size).to eq(1)
+        expect(all_in_9).to eq(1)
       end
     end
 end
