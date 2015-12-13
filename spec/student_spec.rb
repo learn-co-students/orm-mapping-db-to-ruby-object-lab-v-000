@@ -18,6 +18,7 @@ describe Student do
       :name => 'Pat',
       :grade => 12
     }
+    
   }
 
   describe 'attributes' do 
@@ -96,7 +97,7 @@ describe Student do
         all_from_db = Student.all 
         expect(all_from_db.size).to eq(2)
         expect(all_from_db.last).to be_an_instance_of(Student)
-        expect(all_from_db.any? {|student| student.name == "Sam"}.to eq(true)         
+        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)         
       end
     end
   end
@@ -127,11 +128,6 @@ describe Student do
         sam.id = 2
         sam.save
 
-        jess.name = "Jess"
-        jess.grade = 10
-        jess.id = 3
-        jess.save
-
         first_student = Student.first_student_in_grade_10
         expect(first_student.id).to eq(2)
         expect(first_student.name).to eq("Sam")
@@ -152,3 +148,4 @@ describe Student do
       end
     end
 end
+
