@@ -12,6 +12,7 @@ describe Student do
 
   let(:pat) {Student.new}
   let(:sam) {Student.new}
+  let(:jess) {Student.new}
   let(:attributes) {
     {
       :id => 1,
