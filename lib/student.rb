@@ -1,22 +1,92 @@
+require 'pry'
+
 class Student
   attr_accessor :id, :name, :grade
+  @@all = []
 
   def self.new_from_db(row)
     # create a new Student object given a row from the database
+    student = self.new
+    student.id = row[0]
+    student.name = row[1]
+    student.grade = row[2]
+    student
   end
 
   def self.all
     # retrieve all the rows from the "Students" database
     # remember each row should be a new instance of the Student class
+    sql = <<-SQL 
+    SELECT *
+      FROM students
+    SQL
+    
+    DB[:conn].execute(sql).collect do |row|
+      @@all << new_from_db(row)
+    end
+    
+    @@all
   end
 
   def self.find_by_name(name)
     # find the student in the database given a name
+    sql = <<-SQL 
+    SELECT *
+      FROM students
+      WHERE name = ?
+      LIMIT 1
+    SQL
+    
+    row = DB[:conn].execute(sql, name)
     # return a new instance of the Student class
+    new_from_db(row.flatten) #2-dimensional array needs to be flattened into 1 dimension
   end
   
+  def self.count_all_students_in_grade_9
+    sql = <<-SQL 
+    SELECT *
+    FROM students
+    WHERE grade = 9
+    SQL
+    
+    return_array = []
+    
+    DB[:conn].execute(sql).collect do |row|
+      return_array << new_from_db(row)
+    end
+    
+    return_array
+  end
+  
+  def self.students_below_12th_grade
+    sql = <<-SQL 
+    SELECT *
+    FROM students
+    WHERE grade < 12
+    SQL
+    
+    return_array = []
+    
+    DB[:conn].execute(sql).collect do |row|
+      return_array << new_from_db(row)
+    end
+    
+    return_array
+  end
+  
+  def self.first_student_in_grade_10
+    sql = <<-SQL 
+    SELECT *
+    FROM students
+    WHERE grade = 10
+    LIMIT 1
+    SQL
+
+    new_from_db(DB[:conn].execute(sql).flatten)
+  end 
+  
   def save
-    sql = <<-SQL
+    sql = <<-SQL 
       INSERT INTO students (name, grade) 
       VALUES (?, ?)
     SQL
@@ -25,7 +95,7 @@ class Student
   end
   
   def self.create_table
-    sql = <<-SQL
+    sql = <<-SQL 
     CREATE TABLE IF NOT EXISTS students (
       id INTEGER PRIMARY KEY,
       name TEXT,
