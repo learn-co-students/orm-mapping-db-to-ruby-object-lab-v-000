@@ -90,11 +90,12 @@ class Student
     SELECT * 
     FROM students 
     WHERE grade = 10
+
     SQL
 
     DB[:conn].execute(sql).map do |student|
-      student.first
-    end 
+     self.new_from_db(student)
+    end.first
   end 
 
 
