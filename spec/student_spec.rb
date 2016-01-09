@@ -19,6 +19,7 @@ describe Student do
       :name => 'Pat',
       :grade => 12
     }
+    
   }
 
   describe 'attributes' do 
@@ -155,11 +156,6 @@ describe Student do
         sam.id = 2
         sam.save
 
-        jess.name = "Jess"
-        jess.grade = 10
-        jess.id = 3
-        jess.save
-
         first_student = Student.first_student_in_grade_10
         expect(first_student.id).to eq(2)
         expect(first_student.name).to eq("Sam")
@@ -181,3 +177,4 @@ describe Student do
     end
   end
 end
+
