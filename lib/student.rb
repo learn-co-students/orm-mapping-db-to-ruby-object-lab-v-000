@@ -1,4 +1,5 @@
 class Student
+
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
@@ -17,8 +18,40 @@ class Student
   end
 
   def self.find_by_name(name)
-    # find the student in the database given a name
-    # return a new instance of the Student class
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE name = ?
+    SQL
+    DB[:conn].execute(sql, name).map { |row| self.new_from_db(row) }.first
+  end
+
+  def self.count_all_students_in_grade_9
+    sql = <<-SQL
+      SELECT COUNT(*)
+      FROM students
+      WHERE grade = '9th'
+    SQL
+    DB[:conn].execute(sql).map { |row| self.new_from_db(row) }
+  end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade < 12 
+    SQL
+    DB[:conn].execute(sql).map { |row| self.new_from_db(row) }
+  end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      LIMIT 1
+    SQL
+    first_student = DB[:conn].execute(sql).map { |row| self.new_from_db(row) }.first
   end
   
   def save
@@ -26,7 +59,6 @@ class Student
       INSERT INTO students (name, grade) 
       VALUES (?, ?)
     SQL
-
     DB[:conn].execute(sql, self.name, self.grade)
   end
   
@@ -38,7 +70,6 @@ class Student
       grade TEXT
     )
     SQL
-
     DB[:conn].execute(sql)
   end
 
@@ -46,4 +77,5 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+  
 end
