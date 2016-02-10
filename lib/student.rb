@@ -41,9 +41,7 @@ class Student
       FROM students
       WHERE grade < 12
     SQL
-    DB[:conn].execute(sql).map do |row|
-      self.new_from_db(row)
-    end
+    DB[:conn].execute(sql)
   end
 
   def self.first_student_in_grade_10
@@ -54,7 +52,7 @@ class Student
       ORDER BY students.id ASC
       LIMIT 1
     SQL
-    DB[:conn].execute(sql).map do |row|
+    DB[:conn].execute(sql).collect do |row|
       self.new_from_db(row)
     end.first
   end
@@ -65,9 +63,7 @@ class Student
       FROM students
       WHERE grade = 9
     SQL
-    DB[:conn].execute(sql).map do |row|
-      self.new_from_db(row)
-    end
+    DB[:conn].execute(sql)
   end
 
   def save
@@ -80,7 +76,7 @@ class Student
 
   def self.create_table
     sql = <<-SQL
-    CREATE TABLE IF NOT EXISTS students (
+    CREATE TABLE IF NOT EXISTS students(
       id INTEGER PRIMARY KEY,
       name TEXT,
       grade TEXT)
