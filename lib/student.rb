@@ -28,8 +28,9 @@ class Student
       FROM students
       WHERE students.name = ?;
     SQL
-    row = DB[:conn].execute(sql, name)[0]
-    self.new_from_db(row)
+    rows = DB[:conn].execute(sql, name)
+    student_objects = rows.map {|row| self.new_from_db(row)}
+    student_objects.map {|student_object| return student_object}
   end
 
   def self.count_all_students_in_grade_9
