@@ -85,7 +85,7 @@ describe Student do
       end
     end
 
-    describe '.count_all_students_in_grade_9' do
+    describe '.all_students_in_grade_9' do
       it 'returns an array of all students in grades 9' do
         pat.name = "Pat"
         pat.grade = 12
@@ -94,7 +94,7 @@ describe Student do
         sam.grade = 9
         sam.save
 
-        all_in_9 = Student.count_all_students_in_grade_9
+        all_in_9 = Student.all_students_in_grade_9
         expect(all_in_9.size).to eq(1)
       end
     end
@@ -125,21 +125,24 @@ describe Student do
         all_from_db = Student.all 
         expect(all_from_db.size).to eq(2)
         expect(all_from_db.last).to be_an_instance_of(Student)
-        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)         
+        expect(all_from_db.any? {|student| student.name == "Sam"}).to eq(true)
       end
     end
-  
-    describe '.students_below_12th_grade' do
-      it 'returns an array of all students in grades 11 or below' do
+
+    describe '.first_X_students_in_grade_10' do
+      it 'returns an array of the first X students in grade 10' do
         pat.name = "Pat"
-        pat.grade = 12
+        pat.grade = 10
         pat.save
         sam.name = "Sam"
         sam.grade = 10
         sam.save
+        jess.name = "Jess"
+        jess.grade = 10
+        jess.save
 
-        all_but_12th = Student.students_below_12th_grade
-        expect(all_but_12th.size).to eq(1)
+        first_x_students = Student.first_X_students_in_grade_10(2)
+        expect(first_x_students.size).to eq(2)
       end
     end
 
@@ -166,17 +169,20 @@ describe Student do
       end
     end
 
-    describe '.count_all_students_in_grade_9' do
-      it 'returns an array of all students in grades 9' do
+    describe '.all_students_in_grade_X' do
+      it 'returns an array of all students in a given grade X' do
         pat.name = "Pat"
-        pat.grade = 12
+        pat.grade = 10
         pat.save
         sam.name = "Sam"
-        sam.grade = 9
+        sam.grade = 10
         sam.save
+        jess.name = "Jess"
+        jess.grade = 10
+        jess.save
 
-        all_in_9 = Student.count_all_students_in_grade_9
-        expect(all_in_9.size).to eq(1)
+        tenth_grade = Student.all_students_in_grade_X(10)
+        expect(tenth_grade.size).to eq(3)
       end
     end
   end
