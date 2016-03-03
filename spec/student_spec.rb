@@ -181,8 +181,8 @@ describe Student do
         jess.grade = 10
         jess.save
 
-        all_in_9 = Student.all_students_in_grade_X(10)
-        expect(all_in_9.size).to eq(3)
+        first_two_10th = Student.all_students_in_grade_X(10)
+        expect(first_two_10th.size).to eq(3)
       end
     end
   end
