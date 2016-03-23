@@ -93,17 +93,16 @@ end
 
 
 def self.first_x_students_in_grade_10(num)
-self.new_from_db(DB[:conn].execute("SELECT * FROM students WHERE students.grade = 10 ORDER BY students.id ASC LIMIT ?", num).first)
+  DB[:conn].execute("SELECT * FROM students WHERE students.grade = 10 ORDER BY students.id ASC LIMIT ?", num)
 end
 
-def self.all_students_in_grade_X(num)
-      sql = <<-SQL
+def self.all_students_in_grade_X(grade)
+  sql = <<-SQL
     SELECT * FROM students
-      WHERE students.grade = num
+      WHERE students.grade = ?
     SQL
     DB[:conn].execute(sql)
 end
-
 
 end
 
