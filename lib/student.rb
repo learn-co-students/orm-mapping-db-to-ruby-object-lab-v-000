@@ -96,8 +96,8 @@ def self.first_x_students_in_grade_10(num)
   DB[:conn].execute("SELECT * FROM students WHERE students.grade = 10 ORDER BY students.id ASC LIMIT ?", num)
 end
 
-def self.all_students_in_grade_X(num)
-DB[:conn].execute("SELECT * FROM students WHERE students.grade = ?", num)
+def self.all_students_in_grade_X
+DB[:conn].execute("SELECT * FROM students WHERE students.grade = 10")
 end
 
 end
