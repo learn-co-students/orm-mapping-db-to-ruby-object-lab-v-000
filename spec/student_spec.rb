@@ -170,8 +170,8 @@ describe Student do
       end
     end
 
-    describe '.all_students_in_grade_X' do
-      it 'returns an array of all students in a given grade X' do
+    describe '.all_students_in_grade_x' do
+      it 'returns an array of all students in a given grade x' do
         pat.name = "Pat"
         pat.grade = 10
         pat.save
@@ -182,7 +182,7 @@ describe Student do
         jess.grade = 10
         jess.save
 
-        tenth_grade = Student.all_students_in_grade_X
+        tenth_grade = Student.all_students_in_grade_x(10)
         expect(tenth_grade.size).to eq(3)
       end
     end
