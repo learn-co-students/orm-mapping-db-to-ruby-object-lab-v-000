@@ -1,3 +1,4 @@
+require 'pry'
 class Student
   attr_accessor :id, :name, :grade
 
@@ -14,25 +15,14 @@ class Student
     # find the student in the database given a name
     # return a new instance of the Student class
   end
-  
-  def save
-    sql = <<-SQL
-      INSERT INTO students (name, grade) 
-      VALUES (?, ?)
-    SQL
 
+  def save
+    sql = "INSERT INTO students (name, grade) VALUES (?, ?)"
     DB[:conn].execute(sql, self.name, self.grade)
   end
-  
-  def self.create_table
-    sql = <<-SQL
-    CREATE TABLE IF NOT EXISTS students (
-      id INTEGER PRIMARY KEY,
-      name TEXT,
-      grade TEXT
-    )
-    SQL
 
+  def self.create_table
+    sql ="CREATE TABLE IF NOT EXISTS students (id INTEGER PRIMARY KEY,name TEXT,grade TEXT)"
     DB[:conn].execute(sql)
   end
 
@@ -40,4 +30,56 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+
+  def self.new_from_db(path)
+    # select
+    new_student = Student.new
+    new_student.id = path[0]
+    new_student.name = path[1]
+    new_student.grade = path[2]
+    new_student
+  end
+
+  def self.find_by_name(name)
+  sql =  "SELECT * FROM students WHERE name = ? LIMIT 1"
+    DB[:conn].execute(sql,name).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.count_all_students_in_grade_9
+    sql = "SELECT * FROM students WHERE grade = 9"
+    DB[:conn].execute(sql)
+  end
+
+  def self.students_below_12th_grade
+    sql = "SELECT * FROM students WHERE grade < 12"
+    DB[:conn].execute(sql)
+  end
+
+    def self.all
+    sql = "SELECT * FROM students"
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def self.all_students_in_grade_X(x)
+    sql = "SELECT * FROM students WHERE grade = ?"
+    DB[:conn].execute(sql,x)
+  end
+
+
+  def self.first_x_students_in_grade_10(x)
+     sql = "SELECT * FROM students  LIMIT ?"
+    DB[:conn].execute(sql,x)
+  end
+
+  def self.first_student_in_grade_10
+    sql = "SELECT * FROM students WHERE grade = 10 ORDER BY students.id ASC LIMIT 1 "
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
 end
