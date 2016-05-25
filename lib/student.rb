@@ -1,3 +1,5 @@
+require 'pry'
+
 class Student
   attr_accessor :id, :name, :grade
 
@@ -69,12 +71,23 @@ class Student
     sql = <<-SQL
       SELECT *
       FROM students
-      WHERE grade = 10
-      LIMIT 1;
+      WHERE grade = 10;
     SQL
 
     DB[:conn].execute(sql).map do |x|
       self.new_from_db(x)
+    end.first
+  end
+
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?;
+    SQL
+
+    DB[:conn].execute(sql, x).map do |stu|
+      self.new_from_db(stu)
     end
   end
 
