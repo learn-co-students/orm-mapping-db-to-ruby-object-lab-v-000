@@ -62,7 +62,9 @@ class Student
       FROM students
       WHERE grade = 9
     SQL
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
   end
 
   def self.students_below_12th_grade
@@ -71,7 +73,10 @@ class Student
       FROM students
       WHERE grade < 12
     SQL
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+
   end
 
   def self.first_x_students_in_grade_10(x)
@@ -81,7 +86,9 @@ class Student
       WHERE grade = 10
       LIMIT ?
     SQL
-    DB[:conn].execute(sql, x)
+    DB[:conn].execute(sql, x).map do |row|
+      self.new_from_db(row)
+    end
   end
 
   def self.first_student_in_grade_10
@@ -92,7 +99,9 @@ class Student
       ORDER BY students.id ASC
       LIMIT 1
     SQL
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
   end
 
   def self.all_students_in_grade_X(x)
@@ -101,7 +110,9 @@ class Student
       FROM students
       WHERE grade = ?
     SQL
-    DB[:conn].execute(sql, x)
+    DB[:conn].execute(sql, x).map do |row|
+      self.new_from_db(row)
+    end
   end
 
 end
