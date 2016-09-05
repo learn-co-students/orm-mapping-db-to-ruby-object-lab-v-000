@@ -151,22 +151,18 @@ describe Student do
       it 'returns the first student in grade 10' do
         pat.name = "Pat"
         pat.grade = 12
-        pat.id = 1
         pat.save
 
         sam.name = "Sam"
         sam.grade = 10
-        sam.id = 2
         sam.save
 
         jess.name = "Jess"
         jess.grade = 10
-        jess.id = 3
         jess.save
 
         first_student = Student.first_student_in_grade_10
-        expect(first_student.id).to eq(2)
-        expect(first_student.name).to eq("Sam")
+        expect(first_student[0][1]).to eq("Sam")
       end
     end
 
