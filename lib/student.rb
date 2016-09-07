@@ -12,7 +12,6 @@ class Student
   end
 
   def self.all
-    
     # Retrieve all the rows from the "Students" database 
     # Make a call to our database and return an array of rows from the database that match query
     # Iterate over each row and use _new_from_db to create a new Ruby obect for each row
@@ -28,7 +27,17 @@ class Student
   def self.find_by_name(name)
     # find the student in the database given a name
     # return a new instance of the Student class
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE name = ?
+      LIMIT 1
+    SQL
+    DB[:conn].execute(sql,name).map do |row|
+      self.new_from_db(row)
+    end.first
   end
+
   
   def save
     sql = <<-SQL
