@@ -60,6 +60,19 @@ class Student
     end
   end
 
+  def self.first_student_in_grade_10
+    sql = <<-SQL 
+      SELECT *
+      FROM students 
+      WHERE grade = 10
+      ORDER BY students.id ASC 
+      LIMIT 1
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
 
   
   def save
@@ -86,6 +99,14 @@ class Student
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
+  end
+
+   def self.all_students_in_grade_X(x)
+    self.all.select {|student| student.grade == "#{x}"}
+  end
+
+  def self.first_x_students_in_grade_10(x)
+    self.all.select {|student| student.grade == "10"}.first(x)
   end
 
 end
