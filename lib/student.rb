@@ -1,3 +1,5 @@
+ require 'pry'
+
  class Student
   attr_accessor :id, :name, :grade
 
@@ -58,13 +60,12 @@
 
   def self.first_student_in_grade_10
     sql = <<-SQL
-      SELECT * FROM students WHERE grade = '10' ORDER BY id ASC LIMIT 1
+      SELECT * FROM students WHERE grade = '10' ORDER BY id ASC LIMIT 3
     SQL
     
     result = DB[:conn].execute(sql)
     self.new_from_db(result[0])
   end
-#################################################################
  
   def self.all_students_in_grade_X
     sql = <<-SQL
@@ -74,16 +75,6 @@
    DB[:conn].execute(sql, "10")
   end
 
-
-  # def self.all_students_in_grade_X(argument)
-  #   sql = <<-SQL
-  #     SELECT * FROM students WHERE grade = ?
-  #   SQL
-
-  #  DB[:conn].execute(sql, argument)
-  # end
- 
-#################################################################
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade) 
