@@ -11,14 +11,48 @@ class Student
 
   def self.all
     sql = <<-SQL
-      SELECT * FROM students SQL
+      SELECT * FROM students
+      SQL
     DB[:conn].execute(sql).map { |row| Student.new_from_db(row)}
   end
 
   def self.find_by_name(name)
     sql = <<-SQL
-      SELECT * FROM students WHERE name = ? LIMIT 1 SQL
+      SELECT * FROM students WHERE name = ? LIMIT 1
+      SQL
       DB[:conn].execute(sql,name).map { |row| Student.new_from_db(row)}.first
+  end
+
+  def self.count_all_students_in_grade_9
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade = 9
+      SQL
+      DB[:conn].execute(sql).map { |row| Student.new_from_db(row)}
+  end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade < ?
+      SQL
+      DB[:conn].execute(sql,12).map { |row| Student.new_from_db(row)}
+  end
+
+  def self.first_x_students_in_grade_10(x)
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade = 10 LIMIT ?
+      SQL
+      DB[:conn].execute(sql,x).map { |row| Student.new_from_db(row)}
+  end
+
+  def self.first_student_in_grade_10
+      self.first_x_students_in_grade_10(1).first
+  end
+
+  def self.all_students_in_grade_x(x)
+    sql = <<-SQL
+      SELECT * FROM students WHERE grade = ?
+      SQL
+    DB[:conn].execute(sql,x).map { |row| Student.new_from_db(row)}
   end
 
   def self.create_table
