@@ -20,7 +20,7 @@ class Student
       SELECT * FROM students WHERE name = ? LIMIT 1 SQL
       DB[:conn].execute(sql,name).map { |row| Student.new_from_db(row)}.first
   end
-  
+
   def self.create_table
     sql = <<-SQL
     CREATE TABLE IF NOT EXISTS students (
@@ -40,11 +40,11 @@ class Student
 
   def save
     sql = <<-SQL
-      INSERT INTO students (name, grade) 
+      INSERT INTO students (name, grade)
       VALUES (?, ?)
     SQL
 
     DB[:conn].execute(sql, self.name, self.grade)
   end
-  
+
 end
