@@ -1,12 +1,6 @@
 class Student
   attr_accessor :id, :name, :grade
 
-  # def initialize(options = {id: nil, name: nil, grade: nil})
-  #   @id = options[:id]
-  #   @name = options[:name]
-  #   @grade = options[:grade]
-  # end
-
   def self.new_from_db(row)
     student = self.new
     student.id = row[0]
