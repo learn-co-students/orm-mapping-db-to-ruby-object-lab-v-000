@@ -23,9 +23,75 @@ class Student
   end
 
   def self.find_by_name(name)
+  sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE name = ?
+    Limit 1
+  SQL
+  DB[:conn].execute(sql,name).map do |row|
+  self.new_from_db(row)
+  end.first
     # find the student in the database given a name
     # return a new instance of the Student class
   end
+
+  def self.count_all_students_in_grade_9
+    sql = <<-SQL
+    SELECT count(*)
+    FROM students
+    WHERE grade = 9
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def self.all_students_in_grade_x(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      Where grade = ?
+    SQL
+     DB[:conn].execute(sql, x).collect do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+    SELECT count(*)
+    FROM students
+    WHERE grade < 12
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
+  end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      ORDER BY students.id ASC LIMIT 1
+    SQL
+    row = DB[:conn].execute(sql)[0]
+      self.new_from_db(row)
+
+  end
+
+    def self.first_x_students_in_grade_10(x)
+      sql = <<-SQL
+        SELECT *
+        FROM students
+        Where grade = 10
+        limit ?
+        SQL
+      DB[:conn].execute(sql, x).map do |row|
+        self.new_from_db(row)
+      end
+    end
 
   def save
     sql = <<-SQL
