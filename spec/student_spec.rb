@@ -52,7 +52,7 @@ describe Student do
       expect(DB[:conn].execute(table_check_sql)[0]).to be_nil
     end
   end
-
+  
   describe "#save" do
     it 'saves an instance of the Student class to the database' do
       pat.save
