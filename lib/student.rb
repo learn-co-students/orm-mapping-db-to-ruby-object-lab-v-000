@@ -16,7 +16,7 @@ class Student
     # remember each row should be a new instance of the Student class
     sql = "SELECT * FROM students"
     dbs = DB[:conn].execute(sql)
-    a = dbs.map do |row|
+    dbs.map do |row|
       self.new_from_db(row)
     end
   end
@@ -61,17 +61,26 @@ class Student
 
   def self.count_all_students_in_grade_9
     sql = "SELECT * FROM students WHERE grade = 9"
-    a = DB[:conn].execute(sql)
+    dbs = DB[:conn].execute(sql)
+    dbs.map do |row|
+      self.new_from_db(row)
+    end
   end
 
   def self.students_below_12th_grade
     sql = "SELECT * FROM students WHERE grade<12"
-    DB[:conn].execute(sql)
+    dbs = DB[:conn].execute(sql)
+    dbs.map do |row|
+      self.new_from_db(row)
+    end
   end
 
   def self.first_x_students_in_grade_10(x)
     sql = "SELECT * FROM students WHERE grade=10 LIMIT ?"
-    DB[:conn].execute(sql,x)
+    dbs = DB[:conn].execute(sql,x)
+    dbs.map do |row|
+      self.new_from_db(row)
+    end
   end
 
   def self.first_student_in_grade_10
@@ -81,6 +90,9 @@ class Student
 
   def self.all_students_in_grade_x(x)
     sql = "SELECT * FROM students WHERE grade = ?"
-    DB[:conn].execute(sql,x)
+    dbs = DB[:conn].execute(sql,x)
+    dbs.map do |row|
+      self.new_from_db(row)
+    end
   end
 end
