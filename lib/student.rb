@@ -30,7 +30,7 @@ class Student
     SQL
     DB[:conn].execute(sql)
   end
-  def self.all_students_in_grade_X(grade)
+  def self.all_students_in_grade_x(grade)
     sql = <<-SQL
     SELECT * FROM students WHERE grade = ?
     SQL
@@ -38,11 +38,7 @@ class Student
   end
 
   def self.count_all_students_in_grade_9
-    # sql = <<-SQL
-    # SELECT COUNT(*) FROM students WHERE grade = 9
-    # SQL
-    # DB[:conn].execute(sql)
-    self.all_students_in_grade_X("9")
+    self.all_students_in_grade_x("9")
   end
 
   def self.first_x_students_in_grade_10 (x)
