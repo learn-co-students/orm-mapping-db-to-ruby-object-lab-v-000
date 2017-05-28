@@ -7,7 +7,7 @@
 
 ## Overview
 
-We are going to continue building out the `Student` class of our app. We are in the middle of building an app to help a public school's adminstrators keep track of their students. In this app we have a `Student` class. Each individual student has two attributes, a `name` and a `grade`, i.e. 9th, 10th, 11th, etc. 
+We are going to continue building out the `Student` class of our app. We are in the middle of building an app to help a public school's administrators keep track of their students. In this app we have a `Student` class. Each individual student has two attributes, a `name` and a `grade`, i.e. 9th, 10th, 11th, etc. 
 
 Our administrators need to save the student objects that this class produces to a database. We've set up the database for you in the `config/environment.rb` file. 
 
