@@ -44,7 +44,51 @@ class Student
     FROM students
     WHERE grade = 9
     SQL
+
+    DB[:conn].execute(sql)
   end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+    SELECT grade
+    FROM students
+    WHERE grade = 11 OR grade < 11
+    SQL
+
+    DB[:conn].execute(sql)
+  end
+  #returns an array of the first X students in grade 10 (FAILED - 1
+  def self.first_x_students_in_grade_10(number_of_students)
+    sql = <<-SQL
+    SELECT grade, name
+    FROM students
+    WHERE grade = 10
+    GROUP BY name LIMIT ?
+    SQL
+
+    DB[:conn].execute(sql, number_of_students)
+  end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE grade = 10
+    SQL
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.all_students_in_grade_x(num_students)
+     sql = <<-SQL
+       SELECT *
+       FROM students
+       WHERE grade = ?
+     SQL
+
+     DB[:conn].execute(sql, num_students)
+   end
 
   def save
     sql = <<-SQL
