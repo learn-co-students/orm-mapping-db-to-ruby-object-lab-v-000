@@ -129,23 +129,7 @@ describe Student do
       end
     end
 
-    describe '.first_x_students_in_grade_10' do
-      it 'returns an array of the first X students in grade 10' do
 
-        pat.name = "Pat"
-        pat.grade = 10
-        pat.save
-        sam.name = "Sam"
-        sam.grade = 10
-        sam.save
-        jess.name = "Jess"
-        jess.grade = 10
-        jess.save
-
-        first_x_students = Student.first_x_students_in_grade_10(2)
-        expect(first_x_students.size).to eq(2)
-      end
-    end
 
     describe '.first_student_in_grade_10' do
       it 'returns the first student in grade 10' do
