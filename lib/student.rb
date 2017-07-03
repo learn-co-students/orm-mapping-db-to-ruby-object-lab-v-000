@@ -16,8 +16,8 @@ class Student
     DB[:conn].execute(
       "SELECT * FROM students;"
       ).collect do |row|
-      Student.new_from_db(row)
-    end
+        Student.new_from_db(row)
+        end
   end
 
   def self.find_by_name(name)
@@ -32,8 +32,8 @@ class Student
       "SELECT * FROM students
       WHERE grade = 9;"
       ).collect do |row|
-      Student.new_from_db(row)
-    end
+        Student.new_from_db(row)
+        end
   end
 
   def self.students_below_12th_grade
@@ -41,8 +41,8 @@ class Student
       "SELECT * FROM students
       WHERE grade < 12;"
       ).collect do |row|
-      Student.new_from_db(row)
-    end
+        Student.new_from_db(row)
+        end
   end
 
   def self.first_x_students_in_grade_10(x)
@@ -51,8 +51,8 @@ class Student
       WHERE grade = 10
       LIMIT ?;", x
       ).collect do |row|
-      Student.new_from_db(row)
-    end
+        Student.new_from_db(row)
+        end
   end
 
   def self.first_student_in_grade_10
@@ -61,8 +61,8 @@ class Student
       WHERE grade = 10
       LIMIT 1;"
       ).collect do |row|
-      Student.new_from_db(row)
-    end.first
+        Student.new_from_db(row)
+        end.first
   end
 
   def self.all_students_in_grade_x(grade)
@@ -70,8 +70,8 @@ class Student
       "SELECT * FROM students
       WHERE grade = ?;", grade
       ).collect do |row|
-      Student.new_from_db(row)
-    end
+        Student.new_from_db(row)
+        end
   end
 
 
