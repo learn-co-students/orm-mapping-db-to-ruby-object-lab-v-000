@@ -28,8 +28,8 @@ class Student
     self.new_from_db(self.first_x_students_in_grade_10(1)[0])
   end
 
-  def self.all_students_in_grade_X
-    DB[:conn].execute("SELECT * FROM students WHERE grade = 10")
+  def self.all_students_in_grade_X(x)
+    DB[:conn].execute("SELECT * FROM students WHERE grade = ?", x)
   end
 
   def self.count_all_students_in_grade_9
