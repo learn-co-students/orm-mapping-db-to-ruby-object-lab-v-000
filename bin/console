@@ -1,0 +1,10 @@
+#!/usr/local/bin/ruby
+require 'pry'
+require 'sqlite3'
+require_relative '../lib/student'
+
+def reload!
+  load '../lib/student.rb'
+end
+
+pry.start
