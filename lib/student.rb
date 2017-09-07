@@ -41,7 +41,9 @@ def self.count_all_students_in_grade_9
     WHERE grade = 9
    SQL
 
-   DB[:conn].execute(sql)
+   DB[:conn].execute(sql).map do |row|
+     self.new_from_db(row)
+   end
   end
 
 def self.students_below_12th_grade
@@ -51,7 +53,9 @@ def self.students_below_12th_grade
   WHERE grade < 12
   SQL
 
-  DB[:conn].execute(sql)
+  DB[:conn].execute(sql).map do |row|
+    self.new_from_db(row)
+  end
 
 end
 
@@ -60,11 +64,12 @@ def self.first_X_students_in_grade_10(num_students)
   SELECT *
   FROM students
   WHERE grade = 10
-  LIMIT #{num_students}
+  LIMIT ?
   SQL
 
-  DB[:conn].execute(sql)
-
+  DB[:conn].execute(sql, num_students).map do |row|
+    self.new_from_db(row)
+  end
 end
 
 def self.first_student_in_grade_10
@@ -85,10 +90,12 @@ def self.all_students_in_grade_X(grade_level)
   sql = <<-SQL
   SELECT *
   FROM students
-  WHERE grade = #{grade_level}
+  WHERE grade = ?
   SQL
 
-  DB[:conn].execute(sql)
+  DB[:conn].execute(sql, grade_level).map do |row|
+    self.new_from_db(row)
+  end
 end
 
   def save
