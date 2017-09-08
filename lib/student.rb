@@ -62,4 +62,34 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+
+  def self.count_all_students_in_grade_9
+    sql = "SELECT * FROM students WHERE grade = 9"
+    DB[:conn].execute(sql)
+  end
+
+  def self.students_below_12th_grade
+    sql = "SELECT * FROM students WHERE grade < 12"
+    DB[:conn].execute(sql)
+  end
+
+  def self.first_X_students_in_grade_10(x)
+    sql = "SELECT * FROM students WHERE grade = 10 LIMIT #{x}"
+    DB[:conn].execute(sql)
+  end
+
+  def self.first_student_in_grade_10
+    sql = "SELECT * FROM students WHERE grade = 10 LIMIT 1"
+    student_data = DB[:conn].execute(sql)
+    student = Student.new
+    student.id = student_data[0]
+    student.name = student_data[1]
+    student.grade = student_data[2]
+    binding.pry
+  end
+
+  def self.all_students_in_grade_X
+  end
+
+
 end
