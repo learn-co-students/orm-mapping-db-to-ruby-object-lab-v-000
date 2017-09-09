@@ -1,3 +1,5 @@
+require 'pry'
+
 class Student
   attr_accessor :id, :name, :grade
 
@@ -80,15 +82,14 @@ class Student
 
   def self.first_student_in_grade_10
     sql = "SELECT * FROM students WHERE grade = 10 LIMIT 1"
-    student_data = DB[:conn].execute(sql)
-    student = Student.new
-    student.id = student_data[0]
-    student.name = student_data[1]
-    student.grade = student_data[2]
-    binding.pry
+    student = DB[:conn].execute(sql)[0]
+    self.new_from_db(student)
+    #binding.pry
   end
 
-  def self.all_students_in_grade_X
+  def self.all_students_in_grade_X(x)
+    sql = "SELECT * FROM students WHERE grade = #{x}"
+    DB[:conn].execute(sql)
   end
 
 
