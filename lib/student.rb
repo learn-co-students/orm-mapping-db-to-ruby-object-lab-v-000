@@ -64,14 +64,21 @@ class Student
     DB[:conn].execute(sql, num).collect {|row| row}
   end
 
-  def self.first_student_in_grade_10(num)
+  def self.first_student_in_grade_10
     sql = <<-SQL
     SELECT * FROM students
     WHERE grade = 10
-    LIMIT ?
+    LIMIT 1
     SQL
+    self.find_by_name(DB[:conn].execute(sql).collect {|row| row}.first[1])
+  end
 
-    DB[:conn].execute(sql, num).collect {|row| row}
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+    SELECT * FROM students
+    WHERE grade = ?
+    SQL
+    DB[:conn].execute(sql, grade).collect {|row| row}
   end
 
   def save
