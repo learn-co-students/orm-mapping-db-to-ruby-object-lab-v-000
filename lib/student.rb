@@ -70,7 +70,17 @@ class Student
       WHERE grade = 10
       LIMIT 1
     SQL
-    DB[:conn].execute(sql)
+    first_student = DB[:conn].execute(sql)[0]
+    Student.find_by_name(first_student[1])
+  end
+
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+    SQL
+    DB[:conn].execute(sql, x)
   end
 
 
