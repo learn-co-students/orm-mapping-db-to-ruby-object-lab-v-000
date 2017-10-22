@@ -49,27 +49,60 @@ class Student
 
   def self.count_all_students_in_grade_9
     sql = <<-SQL
-      SELECT COUNT(*)
+      SELECT *
       FROM students
       WHERE grade = 9;
     SQL
 
-    DB[:conn].execute(sql)[0]
+    students_arr = DB[:conn].execute(sql)
+    students_arr.collect { |row| self.new_from_db(row) }
   end
 
   def self.students_below_12th_grade
     sql = <<-SQL
-      SELECT name
+      SELECT *
       FROM students
       WHERE grade < 12;
     SQL
 
-    DB[:conn].execute(sql)
+    students_arr = DB[:conn].execute(sql)
+    students_arr.collect { |row| self.new_from_db(row) }
   end
 
-  def self.first_X_students_in_grade_10
+  def self.first_X_students_in_grade_10(x)
     sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      LIMIT ?;
     SQL
+
+    students_arr = DB[:conn].execute(sql, x)
+    students_arr.collect { |row| self.new_from_db(row) }
   end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      LIMIT 1;
+    SQL
+
+    self.new_from_db(DB[:conn].execute(sql)[0])
+  end
+
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?;
+    SQL
+
+    students_arr = DB[:conn].execute(sql, x)
+    students_arr.collect { |row| self.new_from_db(row) }    
+  end
+
+
 
 end
