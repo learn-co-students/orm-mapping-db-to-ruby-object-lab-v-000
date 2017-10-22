@@ -78,7 +78,7 @@ class Student
     SQL
     students = DB[:conn].execute(sql, number)
     students.collect do |student|
-      self.find_by_name(student[1])
+      self.new_from_db(student)
     end
   end
 
@@ -87,7 +87,7 @@ class Student
       SELECT * FROM students WHERE grade = 10 LIMIT 1
     SQL
     student = DB[:conn].execute(sql).first
-    self.find_by_name(student[1])
+    self.new_from_db(student)
   end
 
   def self.all_students_in_grade_X(grade)
@@ -96,7 +96,7 @@ class Student
     SQL
     students = DB[:conn].execute(sql, grade).first
     students.collect do |student|
-      self.find_by_name(student[1])
+      self.new_from_db(student)
     end
   end
 
