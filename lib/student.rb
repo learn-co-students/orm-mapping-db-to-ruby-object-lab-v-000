@@ -9,7 +9,7 @@ class Student
     new_student.name = row[1]
     new_student.grade = row[2]
     new_student
-    # binding.pry
+   
   end
 
   def self.all
@@ -43,9 +43,10 @@ class Student
     sql = <<-SQL
       SELECT * 
       FROM students
-      WHERE grade = 10 LIMIT (?)
+      WHERE grade = 10 
+      LIMIT (?)
     SQL
-    # binding.pry
+   
     found_x_students = DB[:conn].execute(sql, x)
     found_x_students
   end  
@@ -55,7 +56,7 @@ class Student
     FROM students
     WHERE grade = ? 
   SQL
-  # binding.pry
+ 
    DB[:conn].execute(sql, grade)
   end
 
@@ -64,9 +65,10 @@ class Student
       SELECT * 
       FROM students
       WHERE grade = 10 
-      ORDER BY id LIMIT 1 
+      ORDER BY id 
+      LIMIT 1 
     SQL
-    # binding.pry
+   
     found_first_student = DB[:conn].execute(sql)[0]
     self.new_from_db(found_first_student)
     
@@ -83,7 +85,7 @@ class Student
     found_name = DB[:conn].execute(sql, name)
     found_name = found_name[0]
     self.new_from_db(found_name)
-    # binding.pry
+   
   end
   
   def save
