@@ -1,5 +1,3 @@
-require 'pry'
-
 class Student
 
   attr_accessor :id, :name, :grade
@@ -122,7 +120,7 @@ class Student
     rows.collect do |row|
       self.new_from_db(row)
     end
-    
+
 
   end
 
