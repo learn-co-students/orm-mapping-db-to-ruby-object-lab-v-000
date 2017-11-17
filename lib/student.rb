@@ -79,10 +79,12 @@ class Student
       LIMIT 1
     SQL
 
-    DB[:conn].execute(sql,10).map do |row|
-      self.new_from_db(row)
-      binding.pry
-    end.first
+#    DB[:conn].execute(sql,10).map do |row|
+#      self.new_from_db(row)
+#      binding.pry
+#    end.first
+
+    self.new_from_db(DB[:conn].execute(sql,10).first)
   end
 
   def self.all_students_in_grade_X(x)
