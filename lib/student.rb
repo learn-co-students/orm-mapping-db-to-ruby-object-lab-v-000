@@ -35,9 +35,8 @@ class Student
       LIMIT 1
     SQL
 
-    DB[:conn].execute(sql, name).collect do |row|
-      self.new_from_db(row)
-    end.first
+    row = DB[:conn].execute(sql, name).flatten
+    self.new_from_db(row)
   end
 
   def save
