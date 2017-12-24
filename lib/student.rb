@@ -25,8 +25,6 @@ class Student
   end
 
   def self.find_by_name(name)
-    # find the student in the database given a name
-    # return a new instance of the Student class
     sql = <<-SQL
       SELECT *
       FROM students
@@ -96,11 +94,16 @@ class Student
     sql = <<-SQL
     SELECT *
     FROM students
-    WHERE grade = 10 
-    LIMIT 1
+    WHERE grade = 10
+    LIMIT 1 
     SQL
-    if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
-      DB[:conn].execute(sql).first[1]
+    
+    DB[:conn].execute(sql).each do |row|
+      self.new_from_db(row)
+# binding.pry
+    
+    # if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
+    #   DB[:conn].execute(sql).first[1]
     end
   end
 
