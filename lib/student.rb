@@ -111,8 +111,3 @@ class Student
       end
   end 
 end      
-
-# binding.pry
-    
-    # if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
-    #   DB[:conn].execute(sql).first[1]
