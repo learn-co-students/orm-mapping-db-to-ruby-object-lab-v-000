@@ -94,11 +94,14 @@ class Student
 
   def self.first_student_in_grade_10
     sql = <<-SQL
-    SELECT id, name
+    SELECT *
     FROM students
     WHERE grade = 10 
+    LIMIT 1
     SQL
-    DB[:conn].execute(sql)[0][1]
+    if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
+      DB[:conn].execute(sql).first[1]
+    end
   end
 
   def self.all_students_in_grade_X(grade)
@@ -106,7 +109,6 @@ class Student
     SELECT *
     FROM students
     SQL
-    DB[:conn].execute(sql)[2][2]
       if grade = DB[:conn].execute(sql)[2][2]
         DB[:conn].execute(sql)
       end
