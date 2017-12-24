@@ -1,5 +1,3 @@
-require 'pry'
-
 class Student
   attr_accessor :id, :name, :grade
 
@@ -110,9 +108,4 @@ class Student
         DB[:conn].execute(sql)
       end
   end 
-end      
-
-# binding.pry
-    
-    # if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
-    #   DB[:conn].execute(sql).first[1]
+end 
