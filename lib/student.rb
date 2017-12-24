@@ -91,6 +91,7 @@ class Student
   end 
 
   def self.first_student_in_grade_10
+    binding.pry
     sql = <<-SQL
     SELECT *
     FROM students
@@ -100,10 +101,6 @@ class Student
     
     DB[:conn].execute(sql).each do |row|
       self.new_from_db(row)
-# binding.pry
-    
-    # if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
-    #   DB[:conn].execute(sql).first[1]
     end
   end
 
@@ -118,3 +115,7 @@ class Student
   end 
 end      
 
+# binding.pry
+    
+    # if DB[:conn].execute(sql)[0] == DB[:conn].execute(sql).first
+    #   DB[:conn].execute(sql).first[1]
