@@ -1,11 +1,16 @@
 class Student
   attr_accessor :id, :name, :grade
+  @@all = []
+
+  def initialize(id=nil, name=nil, grade=nil)
+    @id = id
+    @name = name
+    @grade = grade
+    @@all << []
+  end
 
   def self.new_from_db(row)
-    student = self.new
-    student.id = row[0]
-    student.name =  row[1]
-    student.grade = row[2]
+    student_new = self.new(row[0], row[1], row[2])
     # create a new Student object given a row from the database
   end
 
@@ -23,12 +28,18 @@ class Student
     # return a new instance of the Student class
     sql = <<-SQL
       SELECT *
-      FROM songs
+      FROM students
       WHERE name = ?
       LIMIT 1
     SQL
-    DB[:conn].execute(sql, name)
-    
+    DB[:conn].execute(sql, name).map do |student|
+      self.new_from_db(student)
+    end.first
+
+  end
+
+  def self.count_all_students_in_grade_9
+    sql = "SELECT COUNT(grade) FROM students GROUP BY grade HAVING grade = 9"
   end
 
   def save
@@ -45,7 +56,7 @@ class Student
     CREATE TABLE IF NOT EXISTS students (
       id INTEGER PRIMARY KEY,
       name TEXT,
-      grade TEXT
+      grade INTEGER
     )
     SQL
 
