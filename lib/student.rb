@@ -40,12 +40,12 @@ class Student
 
   def self.count_all_students_in_grade_9
     sql = "SELECT name FROM students WHERE grade = 9"
-    DB[:conn].execute(sql).flatten[0]
+    DB[:conn].execute(sql).flatten
   end
 
   def self.students_below_12th_grade
     sql = "SELECT name FROM students WHERE grade < 12"
-    DB[:conn].execute(sql).flatten[0]
+    DB[:conn].execute(sql).flatten
 end
 
   def self.first_X_students_in_grade_10(number)
