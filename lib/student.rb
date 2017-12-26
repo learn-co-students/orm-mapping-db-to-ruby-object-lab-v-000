@@ -39,8 +39,31 @@ class Student
   end
 
   def self.count_all_students_in_grade_9
-    sql = "SELECT COUNT(grade) FROM students GROUP BY grade HAVING grade = 9"
+    sql = "SELECT COUNT(name) FROM students GROUP BY grade HAVING grade = 9"
+    DB[:conn].execute(sql).flatten[0]
   end
+
+  def self.students_below_12th_grade
+    sql = "SELECT COUNT(name) FROM students WHERE grade < 12"
+    DB[:conn].execute(sql).flatten[0]
+end
+
+  def self.first_X_students_in_grade_10(number)
+    sql = "SELECT name FROM students WHERE grade = 10 LIMIT ?"
+    DB[:conn].execute(sql, number).flatten
+  end
+
+  def self.first_student_in_grade_10
+    sql = "SELECT * FROM students WHERE grade = 10 LIMIT 1"
+    student = self.new_from_db(DB[:conn].execute(sql).flatten)
+    student
+  end
+
+  def self.all_students_in_grade_X(number)
+    sql = "SELECT name FROM students WHERE grade = ?"
+    DB[:conn].execute(sql, number).flatten
+  end
+
 
   def save
     sql = <<-SQL
