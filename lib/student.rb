@@ -31,7 +31,7 @@ class Student
     grab = <<-SQL
       SELECT last_insert_rowid() FROM students
     SQL
-    @id = DB[:conn].execute(grab).flatten[0]
+    @id = DB[:conn].execute(grab)[0][0]
   end
 
   def self.create(name:, grade:)
