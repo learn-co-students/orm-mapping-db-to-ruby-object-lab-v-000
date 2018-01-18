@@ -1,3 +1,5 @@
+require 'pry'
+
 require_relative 'spec_helper'
 
 describe Student do
@@ -165,6 +167,7 @@ describe Student do
         jess.save
 
         first_student = Student.first_student_in_grade_10
+        # binding.pry
         expect(first_student.id).to eq(2)
         expect(first_student.name).to eq("Sam")
       end
