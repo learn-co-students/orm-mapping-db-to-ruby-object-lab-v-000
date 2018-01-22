@@ -99,8 +99,7 @@ class Student
       WHERE grade = 10
       LIMIT 1
     SQL
-    row = DB[:conn].execute(sql).flatten
-    new_from_db(row)
+    DB[:conn].execute(sql).map{|row| self.new_from_db(row)}.first
   end
 
 
@@ -109,7 +108,8 @@ class Student
       SELECT *
       FROM students
       WHERE grade = ?
+      ORDER BY students.id
     SQL
-    DB[:conn].execute(sql, grade)
+    DB[:conn].execute(sql, grade).map{|row| self.new_from_db(row)}
   end
 end
