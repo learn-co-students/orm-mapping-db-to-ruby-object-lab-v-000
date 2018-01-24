@@ -182,7 +182,7 @@ describe Student do
         jess.grade = 10
         jess.save
 
-        tenth_grade = Student.all_students_in_grade_X(10)
+        tenth_grade = Student.all_students_in_grade_X
         expect(tenth_grade.size).to eq(3)
       end
     end
