@@ -76,7 +76,8 @@ class Student
     LIMIT 1
     SQL
 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map do |row|
+    end.first
   end
 
   def self.all_students_in_grade_X(grade)
