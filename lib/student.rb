@@ -39,6 +39,15 @@ class Student
     array = DB[:conn].execute(sql,"12")
   end
 
+  def self.first_X_students_in_grade_10(x)
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE grade = ?
+      ORDER BY id LIMIT ?
+    SQL
+    students = DB[:conn].execute(sql,"10",x)
+  end
+
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade)
