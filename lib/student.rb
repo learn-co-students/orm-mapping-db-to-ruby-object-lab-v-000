@@ -11,9 +11,8 @@ class Student
   end
 
   def self.all
-    sql = <<-SQL
-      SELECT * FROM students
-    SQL
+    all_array = DB[:conn].execute("SELECT * FROM students")
+    all_array.map {|student| self.new_from_db(student)}
   end
 
   def self.find_by_name(name)
@@ -30,6 +29,14 @@ class Student
       WHERE grade = ?
     SQL
     count = DB[:conn].execute(sql,"9").first
+  end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE grade < ?
+    SQL
+    array = DB[:conn].execute(sql,"12")
   end
 
   def save
