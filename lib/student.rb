@@ -48,6 +48,22 @@ class Student
     students = DB[:conn].execute(sql,"10",x)
   end
 
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE name = ?
+    SQL
+    students = DB[:conn].execute(sql,"Sam").first
+  end
+
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+      SELECT * FROM students
+      WHERE grade = ?
+    SQL
+    students = DB[:conn].execute(sql,"x")
+  end
+
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade)
