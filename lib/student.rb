@@ -76,7 +76,7 @@ class Student
       WHERE grade = 10
       LIMIT 1
     SQL
-    row = DB[:conn].execute(sql).flatten
+    row = DB[:conn].execute(sql)[0]
     self.new_from_db(row)
   end
 
