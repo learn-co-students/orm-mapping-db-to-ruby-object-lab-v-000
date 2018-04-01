@@ -64,11 +64,13 @@ def self.first_X_students_in_grade_10(num)
   number_of_students = <<-SQL
     SELECT *
     FROM students
+    WHERE grade = 10
+    ORDER BY students.id
     LIMIT ?
 
   SQL
 
-  DB[:conn].execute(number_of_students, num)
+  DB[:conn].execute(number_of_students, num).map {|student| self.new_from_db(student)}
 
 end
 
@@ -81,6 +83,7 @@ def self.first_student_in_grade_10
     WHERE grade = 10
     LIMIT 1
   SQL
+
 
 student = DB[:conn].execute(grade_10)[0]
 self.new_from_db(student)
