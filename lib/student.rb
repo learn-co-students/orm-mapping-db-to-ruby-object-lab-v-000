@@ -2,11 +2,11 @@ class Student
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
-    fng = Student.new
-    fng.id = row[0]
-    fng.name = row[1]
-    fng.grade = row[2]
-    fng
+    new_student = self.new
+    new_student.id = row[0]
+    new_student.name = row[1]
+    new_student.grade = row[2]
+    new_student
   end
 
   def self.all
@@ -61,29 +61,25 @@ class Student
 
   def self.count_all_students_in_grade_9
     sql = <<-SQL
-      SELECT *
+      SELECT COUNT(*)
       FROM students
-      WHERE students.grade = 9
+      WHERE students.grade = ?
     SQL
 
-    DB[:conn].execute(sql).map do |row|
-      self.new_from_db(row)
-    end
+    DB[:conn].execute(sql, 9)
   end
 
   def self.students_below_12th_grade
     sql = <<-SQL
       SELECT *
       FROM students
-      WHERE students.grade <= ?
+      WHERE students.grade < ?
     SQL
 
-    DB[:conn].execute(sql, 11).map do |row|
-      self.new_from_db(row)
-    end
+    DB[:conn].execute(sql, 12)
   end
 
-  def self.first_X_students_in_grade_10(number)
+  def self.first_X_students_in_grade_10(count)
     sql = <<-SQL
       SELECT *
       FROM students
@@ -91,9 +87,7 @@ class Student
       LIMIT ?
     SQL
 
-    DB[:conn].execute(sql, number).map do |row|
-      self.new_from_db(row)
-    end
+    DB[:conn].execute(sql, count)
   end
 
   def self.first_student_in_grade_10
@@ -116,9 +110,7 @@ class Student
       WHERE students.grade = ?
     SQL
 
-    DB[:conn].execute(sql, grade).map do |row|
-      self.new_from_db(row)
-    end
+    DB[:conn].execute(sql, grade)
   end
 
 end
