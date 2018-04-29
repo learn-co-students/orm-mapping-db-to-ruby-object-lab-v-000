@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe Student do
+puts describe Student do
 
   before do
     Student.create_table
@@ -21,7 +21,7 @@ describe Student do
     }
   }
 
-  describe 'attributes' do
+  puts describe 'attributes' do
     it 'has an id, name, grade' do
       pat.id = attributes[:id]
       pat.name = attributes[:name]
@@ -33,7 +33,7 @@ describe Student do
     end
   end
 
-  describe '.create_table' do
+  puts describe '.create_table' do
     it 'creates a student table' do
       Student.drop_table
       Student.create_table
