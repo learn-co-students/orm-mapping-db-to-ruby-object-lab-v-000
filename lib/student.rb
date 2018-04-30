@@ -62,9 +62,7 @@ class Student
   end
 
   def self.count_all_students_in_grade_9
-    sql = "SELECT * FROM students WHERE grade = '9'"
-    rows = DB[:conn].execute(sql)
-    rows.collect{|row| self.new_from_db(row)}
+    self.all_students_in_grade_X(9)
   end
 
   def self.students_below_12th_grade
