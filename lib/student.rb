@@ -2,7 +2,7 @@ class Student
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
-    new_student = Self.new 
+    new_student = self.new 
     new_student.id = row[0]
     new_student.name = row[1]
     new_student.grade = row[2]
@@ -19,8 +19,33 @@ class Student
   end
 
   def self.find_by_name(name)
-    # find the student in the database given a name
-    # return a new instance of the Student class
+    sql = <<-SQL
+      SELECT * 
+      FROM students
+      WHERE name = ?
+      LIMIT 1
+    SQL
+    DB[:conn].execute(sql, name).map do |row|
+	    self.new_from_db(row)
+	  end.first
+	end
+	
+	def self.count_all_students_in_grade_9
+	 sql = <<-SQL
+      SELECT *
+      FROM students 
+      WHERE grade = 9
+    SQL
+    DB[:conn].execute(sql)
+	end
+
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT *
+      FROM students 
+      WHERE grade < 12
+    SQL
+    DB[:conn].execute(sql)
   end
   
   def save
