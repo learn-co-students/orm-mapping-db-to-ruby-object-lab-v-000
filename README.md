@@ -7,7 +7,7 @@
 
 ## Overview
 
-We are going to continue building out the `Student` class of our app. We are in the middle of building an app to help a public school's adminstrators keep track of their students. In this app we have a `Student` class. Each individual student has two attributes, a `name` and a `grade`, i.e. 9th, 10th, 11th, etc. 
+We are going to continue building out the `Student` class of our app. We are in the middle of building an app to help a public school's administrators keep track of their students. In this app we have a `Student` class. Each individual student has two attributes, a `name` and a `grade`, i.e. 9th, 10th, 11th, etc. 
 
 Our administrators need to save the student objects that this class produces to a database. We've set up the database for you in the `config/environment.rb` file. 
 
@@ -36,8 +36,7 @@ Let's get started!
 This is a class method that accepts a row from the database as an argument. It then creates a new student object based on the information in the row. Remember, our database doesn't store Ruby objects, so we have to manually convert it ourself.
 
 ### The `.find_by_name` Method
-
-This is a class method that accepts a name of a student. You will first run a SQL query to run get the result from the database where the student's name matches the name passed into the argument.
+This is a class method that accepts a name of a student. You will first run a SQL query to get the result from the database where the student's name matches the name passed into the argument.
 
 Next you will take the result and create a new student instance using the `.new_from_db` method you just created.
 
