@@ -2,6 +2,7 @@ require 'pry'
 
 class Student
   attr_accessor :id, :name, :grade
+  attr_reader :students
 
   def self.new_from_db(row)
     student = self.new
@@ -63,21 +64,34 @@ class Student
     students
   end
 
-  # def self.first_X_students_in_grade_10(x)
-  #   students = []
-  #   tenth = DB[:conn].execute("SELECT * FROM students WHERE grade = 10")
-  #   tenth.each_with_index do |s, i|
-  #     student = self.new
-  #     student.id = tenth[i][0]
-  #     student.name = tenth[i][1]
-  #     student.grade = tenth[i][2]
-  #     students << student
-  #   end
-  #   students
-  #   # binding.pry
-  #   # students(0..x)
-  # end
+  def self.first_X_students_in_grade_10(x)
+    @students = []
+    tenth = DB[:conn].execute("SELECT * FROM students WHERE grade = 10")
+    tenth.each_with_index do |s, i|
+      student = self.new
+      student.id = tenth[i][0]
+      student.name = tenth[i][1]
+      student.grade = tenth[i][2]
+      @students << student
+    end
+    @students[0..(x - 1)]
+  end
 
+  def self.first_student_in_grade_10
+    @students[1]
+  end
+
+  def self.all_students_in_grade_X(x)
+    students = []
+    students_in_grade_x = DB[:conn].execute("SELECT * FROM students WHERE grade = #{x}")
+    students_in_grade_x.each_with_index do |s, i|
+      student = self.new
+      student.id = students_in_grade_x[i][0]
+      student.name = students_in_grade_x[i][1]
+      student.grade = students_in_grade_x[i][2]
+      students << student
+    end
+    students
   end
 
   def save
