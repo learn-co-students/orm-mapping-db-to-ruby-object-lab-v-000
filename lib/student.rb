@@ -4,20 +4,11 @@ class Student
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
-    # binding.pry
-    # create a new Student object given a row from the database
-    # data = DB[:conn].execute("SELECT * FROM students WHERE id = row")
-    @id = row[0]
-    @name = row[1]
-    @grade = row[2]
-    # student = Student.new(id, name, grade)
+    student = self.new
+    student.id = row[0]
+    student.name = row[1]
+    student.grade = row[2]
     student
-  end
-
-  def initialize(id:, name:, grade:)
-    @id = id
-    @name = name
-    @grade = grade
   end
 
   def self.all
