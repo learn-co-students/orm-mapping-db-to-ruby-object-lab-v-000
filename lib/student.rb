@@ -1,29 +1,108 @@
+require 'pry'
+
 class Student
   attr_accessor :id, :name, :grade
+  attr_reader :students
 
   def self.new_from_db(row)
-    # create a new Student object given a row from the database
-  end
-
-  def self.all
-    # retrieve all the rows from the "Students" database
-    # remember each row should be a new instance of the Student class
+    student = self.new
+    student.id = row[0]
+    student.name = row[1]
+    student.grade = row[2]
+    student
   end
 
   def self.find_by_name(name)
     # find the student in the database given a name
     # return a new instance of the Student class
+    row = DB[:conn].execute("SELECT * FROM students WHERE name = name")
+    student = self.new
+    student.id = row[0][0]
+    student.name = row[0][1]
+    student.grade = row[0][2]
+    student
   end
-  
+
+  def self.count_all_students_in_grade_9
+    students = []
+    ninth = DB[:conn].execute("SELECT * FROM students WHERE grade = 9")
+    ninth.each do |s|
+      student = self.new
+      student.id = ninth[0][0]
+      student.name = ninth[0][1]
+      student.grade = ninth[0][2]
+      students << student
+    end
+    students
+  end
+
+  def self.students_below_12th_grade
+    students = []
+    all_but_12th = DB[:conn].execute("SELECT * FROM students WHERE grade < 12")
+    all_but_12th.each do |s|
+      student = self.new
+      student.id = all_but_12th[0][0]
+      student.name = all_but_12th[0][1]
+      student.grade = all_but_12th[0][2]
+      students << student
+    end
+    students
+  end
+
+  def self.all
+    # retrieve all the rows from the "Students" database
+    # remember each row should be a new instance of the Student class
+    students = []
+    all_students = DB[:conn].execute("SELECT * FROM students")
+    all_students.each_with_index do |s, i|
+      student = self.new
+      student.id = all_students[i][0]
+      student.name = all_students[i][1]
+      student.grade = all_students[i][2]
+      students << student
+    end
+    students
+  end
+
+  def self.first_X_students_in_grade_10(x)
+    @students = []
+    tenth = DB[:conn].execute("SELECT * FROM students WHERE grade = 10")
+    tenth.each_with_index do |s, i|
+      student = self.new
+      student.id = tenth[i][0]
+      student.name = tenth[i][1]
+      student.grade = tenth[i][2]
+      @students << student
+    end
+    @students[0..(x - 1)]
+  end
+
+  def self.first_student_in_grade_10
+    @students[1]
+  end
+
+  def self.all_students_in_grade_X(x)
+    students = []
+    students_in_grade_x = DB[:conn].execute("SELECT * FROM students WHERE grade = #{x}")
+    students_in_grade_x.each_with_index do |s, i|
+      student = self.new
+      student.id = students_in_grade_x[i][0]
+      student.name = students_in_grade_x[i][1]
+      student.grade = students_in_grade_x[i][2]
+      students << student
+    end
+    students
+  end
+
   def save
     sql = <<-SQL
-      INSERT INTO students (name, grade) 
+      INSERT INTO students (name, grade)
       VALUES (?, ?)
     SQL
 
     DB[:conn].execute(sql, self.name, self.grade)
   end
-  
+
   def self.create_table
     sql = <<-SQL
     CREATE TABLE IF NOT EXISTS students (
