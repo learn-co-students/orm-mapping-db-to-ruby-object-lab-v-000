@@ -13,6 +13,16 @@ class Student
   def self.all
     # retrieve all the rows from the "Students" database
     # remember each row should be a new instance of the Student class
+		sql = "SELECT * FROM students"
+
+		
+		q_data = DB[:conn].execute(sql)
+
+		rtn = q_data.collect do |row|
+			self.new_from_db(row)
+		end	
+
+		rtn
   end
 
   def self.find_by_name(name)
@@ -34,14 +44,22 @@ class Student
   end
   
 	def self.count_all_students_in_grade_9
-		sql = <<-SQL
-			SELECT COUNT(*)
-			FROM students
-			WHERE grade >= ? AND
-				grade <= ?
-		SQL
+		sql = self.sql_base_all
 
 		q_data = DB[:conn].execute(sql, 9, 9)
+		
+		rtn = q_data.collect do |row|
+			self.new_from_db(row)
+		end
+
+		rtn
+	end
+
+		
+	def self.students_below_12th_grade
+		sql = self.sql_base_all
+
+		q_data = DB[:conn].execute(sql, 1, 11)
 
 		rtn = q_data.collect do |row|
 			self.new_from_db(row)
@@ -76,5 +94,55 @@ class Student
     DB[:conn].execute(sql)
   end
 
+	def self.first_X_students_in_grade_10(count)
+		sql = self.sql_limit_base
+		q_data = DB[:conn].execute(sql, 10, 10, count)
+
+		rtn = q_data.collect do |row|
+			self.new_from_db(row)		
+		end
+		rtn
+	end
+
+	def self.first_student_in_grade_10
+		sql = self.sql_limit_base
+		q_data = DB[:conn].execute(sql, 10, 10, 1)
+		
+		rtn = q_data.collect do |row|
+			self.new_from_db(row)
+		end.first
+		rtn
+	end
+
+	def self.all_students_in_grade_X(grade)
+		sql = self.sql_base_all
+		q_data = DB[:conn].execute(sql, grade, grade)
+
+		rtn = q_data.collect do |row|
+			self.new_from_db(row)
+		end
+		rtn
+	end
+private
+
+	def self.sql_base_all
+		sql = <<-SQL                        	
+			SELECT *
+			FROM students
+			WHERE grade >= ? AND
+  			grade <= ?
+			SQL
+		sql
+	end
 	
+	def self.sql_limit_base
+		sql = <<-SQL
+			SELECT * 
+			FROM students
+			WHERE grade >= ? AND
+				grade <= ?
+			LIMIT ?
+		SQL
+		sql
+	end
 end
