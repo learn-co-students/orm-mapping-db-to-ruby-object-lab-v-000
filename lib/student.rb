@@ -51,23 +51,25 @@ class Student
   end
 
   def self.count_all_students_in_grade_9
-    students = []
-    self.all.each { |student|
-      if student.grade == "9"
-        students << student
-      end
-    }
-    students
+    sql = "SELECT * FROM students WHERE grade = 9"
+    DB[:conn].execute(sql)
+    #students = []
+    #self.all.each { |student|
+    #  if student.grade == "9"
+    #    students << student
+    #  end
+    #}
+    #students
   end
 
   def self.students_below_12th_grade
-    students = []
-    self.all.each { |student|
-      if student.grade.to_i < 12
-        students << student
-      end
-    }
-    students
+    #students = []
+    #self.all.each { |student|
+    #  if student.grade.to_i < 12
+    #    students << student
+    #  end
+    #}
+    #students
   end
 
   def self.all
@@ -78,34 +80,34 @@ class Student
   end
 
   def self.first_X_students_in_grade_10(selection)
-    students = []
-    count = 0
-    self.all.each { |student|
-      if student.grade.to_i == 10
-        while count < selection do
-          students << student
-          count += 1
-        end
-      end
-    }
-    students
+    #students = []
+    #count = 0
+    #self.all.each { |student|
+    #  if student.grade.to_i == 10
+    #    while count < selection do
+    #      students << student
+    #      count += 1
+    #    end
+    #  end
+    #}
+    #students
   end
 
   def self.first_student_in_grade_10
-    self.all.each { |student|
-      if student.grade.to_i == 10
-        return student
-      end
-    }
+    #self.all.each { |student|
+    #  if student.grade.to_i == 10
+    #    return student
+    #  end
+    #}
   end
 
   def self.all_students_in_grade_X(selection)
-    students = []
-    self.all.each { |student|
-      if student.grade.to_i == selection
-        students << student
-      end
-    }
-    students
-  end
+  #  students = []
+  #  self.all.each { |student|
+  #    if student.grade.to_i == selection
+  #      students << student
+  #    end
+  #  }
+  #  students
+  #end
 end
