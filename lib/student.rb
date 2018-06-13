@@ -63,6 +63,10 @@ class Student
   end
 
   def self.students_below_12th_grade
+    sql = "SELECT * FROM students WHERE grade < 12"
+    DB[:conn].execute(sql).map {|row|
+      self.new_from_db(row)
+    }
     #students = []
     #self.all.each { |student|
     #  if student.grade.to_i < 12
@@ -80,6 +84,10 @@ class Student
   end
 
   def self.first_X_students_in_grade_10(selection)
+    sql = "SELECT * FROM students WHERE grade = 10 LIMIT ?"
+    DB[:conn].execute(sql, selection).map { |row|
+      self.new_from_db(row)
+    }
     #students = []
     #count = 0
     #self.all.each { |student|
@@ -94,6 +102,9 @@ class Student
   end
 
   def self.first_student_in_grade_10
+    sql = "SELECT * FROM students WHERE grade == 10 LIMIT 1"
+    row = DB[:conn].execute(sql).flatten
+    self.new_from_db(row)
     #self.all.each { |student|
     #  if student.grade.to_i == 10
     #    return student
@@ -102,6 +113,10 @@ class Student
   end
 
   def self.all_students_in_grade_X(selection)
+    sql = "SELECT * FROM students WHERE grade == ?"
+    DB[:conn].execute(sql, selection).map { |row|
+      self.new_from_db(row)
+    }
   #  students = []
   #  self.all.each { |student|
   #    if student.grade.to_i == selection
@@ -109,5 +124,5 @@ class Student
   #    end
   #  }
   #  students
-  #end
+  end
 end
