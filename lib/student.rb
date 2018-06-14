@@ -109,7 +109,7 @@ class Student
     end
   end
 
-  def self.count_all_students_in_grade_X(num)
+  def self.all_students_in_grade_X(num)
     sql =<<-SQL
     SELECT *
     FROM students
