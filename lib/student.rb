@@ -76,7 +76,6 @@ class Student
       students = self.all.select do |student|
       student.grade == grade.to_s
     end
-
   end
 
 end
