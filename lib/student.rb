@@ -20,18 +20,6 @@ class Student
     end
   end
 
-  def self.find_by_name(name)
-    sql = <<-SQL
-      SELECT *
-      FROM students
-      WHERE name = ?
-    SQL
-
-    student = DB[:conn].execute(sql, name)[0]
-
-    self.new_from_db(student)
-  end
-  
   def save
     sql = <<-SQL
       INSERT INTO students (name, grade) 
@@ -56,6 +44,10 @@ class Student
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
+  end
+
+  def self.find_by_name(name)
+    self.all.find {|s| s.name == name}
   end
 
   def self.count_all_students_in_grade_9
