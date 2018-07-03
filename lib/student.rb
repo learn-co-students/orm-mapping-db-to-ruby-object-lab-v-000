@@ -89,10 +89,10 @@ class Student
     SELECT *
     FROM students
     WHERE grade = 10
-    LIMIT input.to_i
+    LIMIT ?
     SQL
 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql, input)
   end
 
 
@@ -100,10 +100,27 @@ class Student
     sql = <<-SQL
     SELECT *
     FROM students
-    WHERE grade = input
+    WHERE grade = ?
     SQL
 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql, input)
   end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE grade = 10
+    ORDER BY id
+    LIMIT 1
+    SQL
+
+    row = DB[:conn].execute(sql).first
+    self.new_from_db(row)
+  end
+
+
+
+
 
 end
