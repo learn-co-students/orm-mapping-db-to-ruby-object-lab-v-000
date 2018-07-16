@@ -35,7 +35,7 @@ class Student
 
   def self.count_all_students_in_grade_9
     sql = <<-SQL
-    SELECT *
+    SELECT COUNT(*)
     FROM students
     WHERE grade = 9
     SQL
@@ -62,6 +62,7 @@ class Student
     SELECT *
     FROM students
     WHERE grade = 10
+    ORDER BY students.id
     LIMIT ?
     SQL
 
@@ -75,6 +76,7 @@ class Student
     SELECT *
     FROM students
     WHERE grade = 10
+    ORDER BY students.id
     SQL
 
     DB[:conn].execute(sql).map do |row|
@@ -87,6 +89,7 @@ class Student
     SELECT *
     FROM students
     WHERE grade = ?
+    ORDER BY students.id
     SQL
 
     DB[:conn].execute(sql, grade).map do |row|
