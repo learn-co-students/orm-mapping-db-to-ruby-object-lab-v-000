@@ -40,7 +40,7 @@ class Student
 
     def self.count_all_students_in_grade_9
         sql = "select count(*) from students where grade = 9"
-        DB[:conn].execute(sql)
+        DB[:conn].execute(sql).map { |std|  self.new_from_db(std)}
     end
 
     def self.students_below_12th_grade
@@ -50,7 +50,7 @@ class Student
 
     def self.first_X_students_in_grade_10(num)
         sql = "select * from students where grade = 10 limit ?"
-        DB[:conn].execute(sql, num)
+        DB[:conn].execute(sql, num).map { |std|  self.new_from_db(std)}
     end
 
     def self.first_student_in_grade_10
@@ -60,7 +60,7 @@ class Student
 
     def self.all_students_in_grade_X(x)
         sql = "select * from students where grade = ?"
-        DB[:conn].execute(sql, x)
+        DB[:conn].execute(sql, x).map { |std|  self.new_from_db(std)}
     end
 
     def self.drop_table
