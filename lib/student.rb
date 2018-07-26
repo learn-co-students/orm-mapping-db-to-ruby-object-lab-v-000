@@ -60,14 +60,14 @@ class Student
   end
 
   def self.first_X_students_in_grade_10(x)
-    sql = "SELECT * FROM students LIMIT ?"
+    sql = "SELECT * FROM students ORDER by students.id LIMIT ?"
     DB[:conn].execute(sql,x).collect do |row|
       self.new_from_db(row)
     end
   end
 
   def self.first_student_in_grade_10
-    sql = "SELECT * FROM students WHERE grade = 10 LIMIT 1"
+    sql = "SELECT * FROM students WHERE grade = 10 ORDER BY students.id LIMIT 1"
     DB[:conn].execute(sql).collect do |row|
       self.new_from_db(row)
     end.first
