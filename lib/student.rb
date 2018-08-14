@@ -2,10 +2,10 @@ require 'pry'
 class Student
   attr_accessor :id, :name, :grade
 
-  def initialize(id = nil)
-    @id = id
-  end
-  
+  # def initialize(id = nil)
+  #   @id = id
+  # end
+
   def self.new_from_db(row)
    new_student = self.new
    new_student.id = row[0]
@@ -62,15 +62,16 @@ class Student
 
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
+
     DB[:conn].execute(sql)
   end
 
   def self.count_all_students_in_grade_9
     sql = <<-SQL
-    SELECT grade FROM students WHERE grade = 9
+    SELECT grade FROM students WHERE grade = ?
     SQL
 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql, "9")
   end
 
   def self.students_below_12th_grade
@@ -78,16 +79,41 @@ class Student
     SELECT * FROM students WHERE grade <= ?
     SQL
 
-    DB[:conn].execute(sql, "11th")
-
+    result = DB[:conn].execute(sql, "11").map do |row|
+    self.new_from_db(row)
+    end
   end
 
-  def self.first_X_students_in_grade_10
+  def self.first_X_students_in_grade_10(x)
+    sql = <<-SQL
+    SELECT * FROM students WHERE grade = ?
+    LIMIT ?
+    SQL
+
+    result = DB[:conn].execute(sql, "10", x).map do |row|
+    self.new_from_db(row)
+    end
   end
 
   def self.first_student_in_grade_10
+    sql = <<-SQL
+    SELECT * FROM students WHERE grade = ?
+    LIMIT 1
+    SQL
+
+    result = DB[:conn].execute(sql, "10").map do |row|
+    self.new_from_db(row)
+    end
+    result.first
   end
 
-  def self.all_students_in_grade_X
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+    SELECT * FROM students WHERE grade = ?
+    SQL
+
+    result = DB[:conn].execute(sql, x).map do |row|
+    self.new_from_db(row)
+    end
   end
 end
