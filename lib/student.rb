@@ -50,30 +50,45 @@ class Student
     FROM students
     where grade < 12
     SQL
-    array_below_12th = DB[:conn].execute(sql)
-    array_below_12th
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
   end
 
-  def self.first_X_students_in_grade_10(x)
+  def self.first_X_students_in_grade_10(number)
     sql = <<-SQL
     SELECT *
     FROM students
-    HAVING grade = 10
-    LIMIT x.to_int
+    WHERE grade = 10
+    ORDER BY students.id
+    LIMIT ?
     SQL
-    array_tenth_limit = DB[:conn].execute(sql)
-    array_tenth_limit
+    DB[:conn].execute(sql, number).map do |row|
+      self.new_from_db(row)
+    end
+
+    def self.first_student_in_grade_10
+      sql = <<-SQL
+      SELECT *
+      FROM students
+      where grade = 10
+      SQL
+      DB[:conn].execute(sql).map do |row|
+        self.new_from_db(row)
+      end.first
+    end
+
   end
 
-  def self.all_students_in_grade_X(x)
+  def self.all_students_in_grade_X(number)
     sql = <<-SQL
     SELECT *
     FROM students
-    GROUP BY grade
-    HAVING grade = x
+    WHERE grade = ?
     SQL
-    array_in_grade = DB[:conn].execute(sql)
-    array_in_grade
+    DB[:conn].execute(sql, number).map do |row|
+      self.new_from_db(row)
+    end
   end
 
 
