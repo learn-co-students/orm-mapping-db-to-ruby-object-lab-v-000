@@ -2,12 +2,13 @@ class Student
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
-   new_student = self.new
-   new_student.id = row[0]
-   new_student.name = row [1]
-   new_student.grade = row[2]
-   new_student
+    new_student = self.new
+    new_student.id = row[0]
+    new_student.name = row [1]
+    new_student.grade = row[2]
+    new_student
   end
+
 
   def self.all
     sql = <<-SQL
@@ -28,7 +29,7 @@ class Student
     SQL
 
     DB[:conn].execute(sql).map do |row|
-        self.new_from_db(row)
+      self.new_from_db(row)
     end
   end
 
@@ -48,8 +49,8 @@ class Student
 
   def save
     sql = <<-SQL
-      INSERT INTO students (name, grade)
-      VALUES (?, ?)
+    INSERT INTO students (name, grade)
+    VALUES (?, ?)
     SQL
 
     DB[:conn].execute(sql, self.name, self.grade)
@@ -95,21 +96,32 @@ class Student
     SQL
 
     sql = DB[:conn].execute(sql).map do |row|
-     self.new_from_db(row)
-   end
- end
+      self.new_from_db(row)
+    end
+  end
 
- def self.first_student_in_grade_10
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+    SELECT *
+    FROM students
+    WHERE grade = 10
+    SQL
+
+    sql = DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.all_students_in_grade_X(x)
    sql = <<-SQL
    SELECT *
    FROM students
-   WHERE grade = 10
-   GROUP BY id
-   ORDER BY students.id
-   LIMIT 1
+   WHERE grade = #{x}
    SQL
 
-   sql = DB[:conn].execute(sql)
-end
+   sql = DB[:conn].execute(sql).map do |row|
+     self.new_from_db(row)
+   end
+  end
 
 end
