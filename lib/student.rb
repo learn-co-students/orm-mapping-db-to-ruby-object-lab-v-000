@@ -1,4 +1,3 @@
-require 'pry'
 class Student
   attr_accessor :id, :name, :grade
   
@@ -12,7 +11,7 @@ class Student
 
   def self.all
     sql = <<-SQL
-      SELECT * FROM Students
+      SELECT * FROM students
     SQL
     
     all_rows = DB[:conn].execute(sql)
@@ -25,7 +24,7 @@ class Student
 
   def self.find_by_name(name)
     sql = <<-SQL
-      SELECT * FROM Students WHERE name = ?
+      SELECT * FROM students WHERE name = ?
     SQL
     
     student = (DB[:conn].execute(sql, name)).flatten
@@ -34,42 +33,57 @@ class Student
   
   def self.all_students_in_grade_9
     sql = <<-SQL
-      SELECT * FROM Students WHERE grade = ?
+      SELECT * FROM students WHERE grade = ?
     SQL
     
-    DB[:conn].execute(sql, "9")
+    students = DB[:conn].execute(sql, "9")
+    students.map do |student|
+      self.new_from_db(student)
+    end
   end
   
   def self.students_below_12th_grade
     sql = <<-SQL
-      SELECT * FROM Students WHERE grade < ?
+      SELECT * FROM students WHERE grade < ?
     SQL
     
-    DB[:conn].execute(sql, "12")
+    students = DB[:conn].execute(sql, "12")
+    students.map do |student|
+      self.new_from_db(student)
+    end
   end
   
   def self.first_X_students_in_grade_10(num)
     sql = <<-SQL
-      SELECT * FROM Students WHERE grade = ? LIMIT ?
+      SELECT * FROM students WHERE grade = ? LIMIT ?
     SQL
     
-    DB[:conn].execute(sql, "10", num)
+    students = DB[:conn].execute(sql, "10", num)
+    students.map do |student|
+      self.new_from_db(student)
+    end
   end
   
   def self.first_student_in_grade_10 
     sql = <<-SQL
-      SELECT * FROM Students WHERE grade = ?
+      SELECT * FROM students WHERE grade = ?
     SQL
     
-    DB[:conn].execute(sql, "10").first
+    students = DB[:conn].execute(sql, "10")
+    students.map do |student|
+      self.new_from_db(student)
+    end.first
   end
   
   def self.all_students_in_grade_X(grade)
     sql = <<-SQL
-      SELECT * FROM Students WHERE grade = ?
+      SELECT * FROM students WHERE grade = ?
     SQL
     
-    DB[:conn].execute(sql, grade)
+    students = DB[:conn].execute(sql, grade)
+    students.map do |student|
+      self.new_from_db(student)
+    end
   end 
   
   def save
