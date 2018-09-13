@@ -42,12 +42,35 @@ class Student
   
   def self.students_below_12th_grade
     sql = <<-SQL
-      SELECT * FROM Students WHERE grade <= ?
+      SELECT * FROM Students WHERE grade < ?
     SQL
     
-    DB[:conn].execute(sql, "11")
+    DB[:conn].execute(sql, "12")
   end
   
+  def self.first_X_students_in_grade_10(num)
+    sql = <<-SQL
+      SELECT * FROM Students WHERE grade = ? LIMIT ?
+    SQL
+    
+    DB[:conn].execute(sql, "10", num)
+  end
+  
+  def self.first_student_in_grade_10 
+    sql = <<-SQL
+      SELECT * FROM Students WHERE grade = ?
+    SQL
+    
+    DB[:conn].execute(sql, "10").first
+  end
+  
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+      SELECT * FROM Students WHERE grade = ?
+    SQL
+    
+    DB[:conn].execute(sql, grade)
+  end 
   
   def save
     sql = <<-SQL
