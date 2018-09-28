@@ -10,8 +10,8 @@ class Student
   end
 
   def self.all
-    sql <<-SQL
-      SELECT * FROM students;
+    sql = <<-SQL
+      SELECT * FROM students
     SQL
     
     DB[:conn].execute(sql).map { |row| self.new_from_db(row) }
@@ -19,12 +19,13 @@ class Student
   
 
   def self.find_by_name(name)
-    sql <<-SQL
+    sql = <<-SQL
       SELECT * FROM students
       WHERE name = ?
-      LIMIT
+      LIMIT 1
     SQL
-
+    
+    DB[:conn].execute(sql, name).map { |row| self.new_from_db(row) }.first
   end
   
   def save
@@ -45,11 +46,58 @@ class Student
     )
     SQL
 
-    DB[:conn].execute(sql)
+    DB[:conn].execute(sql).map { |row| self.new_from_db(row) }
   end
 
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
+    
     DB[:conn].execute(sql)
+  end
+  
+  def self.all_students_in_grade_9
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 9
+    SQL
+    DB[:conn].execute(sql).map { |row| self.new_from_db(row) }
+  end
+  
+  def self.students_below_12th_grade
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade < 12
+    SQL
+    DB[:conn].execute(sql).map { |row| self.new_from_db(row) }
+  end
+  
+  def self.first_X_students_in_grade_10(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      LIMIT ?
+    SQL
+    DB[:conn].execute(sql, x).map { |row| self.new_from_db(row) }
+  end
+  
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+    SELECT *
+      FROM students
+      WHERE grade = 10
+    SQL
+    DB[:conn].execute(sql).map { |row| self.new_from_db(row) }.first
+  end
+  
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+    SQL
+    DB[:conn].execute(sql, x).map { |row| self.new_from_db(row) }
   end
 end
