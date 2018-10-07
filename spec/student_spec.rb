@@ -85,7 +85,7 @@ describe Student do
       end
     end
 
-    describe '.all_students_in_grade_9' do
+    describe '.count_all_students_in_grade_9' do
       it 'returns an array of all students in grades 9' do
         pat.name = "Pat"
         pat.grade = 12
@@ -94,7 +94,7 @@ describe Student do
         sam.grade = 9
         sam.save
 
-        all_in_9 = Student.all_students_in_grade_9
+        all_in_9 = Student.count_all_students_in_grade_9
         expect(all_in_9.size).to eq(1)
       end
     end
