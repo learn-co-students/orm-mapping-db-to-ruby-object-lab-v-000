@@ -3,18 +3,10 @@ class Student
 
   def self.new_from_db(row)
     new_student = self.new
-    # binding.pry
-    # if row.first.is_a?(String)
-    #   new_student.name = row.first
-    #   new_student.id=nil
-    #   new_student.grade=nil
-    # elsif
     new_student.id = row[0]
     new_student.name = row[1]
     new_student.grade = row[2]
     new_student
-    # end
-
   end
 
   def self.all
@@ -55,7 +47,6 @@ class Student
     SQL
 
     DB[:conn].execute(sql).map {|row| Student.new_from_db(row)}
-
   end
 
   def self.first_X_students_in_grade_10(number)
