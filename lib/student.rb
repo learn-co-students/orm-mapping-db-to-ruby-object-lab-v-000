@@ -35,6 +35,7 @@ class Student
     end.first
   end
 
+# only returns data, not objects
   def self.all_students_in_grade_9
     sql = <<-SQL
         SELECT *
@@ -56,6 +57,7 @@ class Student
       end
   end
 
+# only returns data, not objects
   def self.first_X_students_in_grade_10(x)
     sql = <<-SQL
         SELECT *
@@ -65,7 +67,6 @@ class Student
       SQL
 
     DB[:conn].execute(sql, x)
-
   end
 
   def self.first_student_in_grade_10
