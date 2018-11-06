@@ -64,14 +64,16 @@ class Student
 
   def self.first_X_students_in_grade_10(x)
     sql = <<-SQL
-      SELECT COUNT(grade)
+      SELECT *
       FROM students
       WHERE grade = 10
+      ORDER BY students.id
+      LIMIT ?
     SQL
 
-    DB[:conn].execute(sql).map do |row|
+    DB[:conn].execute(sql, x).map do |row|
       self.new_from_db(row)
-    end.size
+    end
   end
 
   def save
@@ -98,5 +100,32 @@ class Student
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
+  end
+
+  def self.first_student_in_grade_10
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = 10
+      ORDER BY students.id
+      LIMIT 1
+    SQL
+
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
+
+  def self.all_students_in_grade_X(x)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE grade = ?
+      ORDER BY students.id
+    SQL
+
+    DB[:conn].execute(sql, x).map do |row|
+      self.new_from_db(row)
+    end
   end
 end
