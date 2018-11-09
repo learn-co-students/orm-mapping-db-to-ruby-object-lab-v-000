@@ -17,7 +17,7 @@ class Student
     # retrieve all the rows from the "Students" database
     # remember each row should be a new instance of the Student class
     DB[:conn].execute(sql).map do |row|
-      self.new(row)
+      self.new_from_db(row)
     end
   end
 
@@ -58,5 +58,8 @@ class Student
   def self.drop_table
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
+  end
+
+  def
   end
 end
