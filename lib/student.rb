@@ -1,18 +1,38 @@
+require 'pry'
 class Student
   attr_accessor :id, :name, :grade
 
+@@all = []
+
   def self.new_from_db(row)
-    # create a new Student object given a row from the database
+    s = self.new
+    s.id = row[0]
+    s.name = row[1]
+    s.grade = row[2]
+    s
   end
 
   def self.all
     # retrieve all the rows from the "Students" database
+    s_arr = DB[:conn].execute("SELECT * FROM students")
     # remember each row should be a new instance of the Student class
+    s_arr.each do |s|
+      @@all << self.new_from_db(s)
+    end
+    @@all
   end
 
   def self.find_by_name(name)
     # find the student in the database given a name
+    row = DB[:conn].execute("SELECT * FROM students WHERE students.name = ?", name)
     # return a new instance of the Student class
+    s = self.new
+      row.each do |r|
+        s.id=r[0]
+        s.name=r[1]
+        s.grade=r[2]
+      end
+    s
   end
   
   def save
@@ -40,4 +60,33 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+  
+  def self.all_students_in_grade_9
+    DB[:conn].execute("SELECT * FROM students WHERE grade = 9")
+  end
+  
+  def self.students_below_12th_grade
+    s = []
+    rows = DB[:conn].execute("SELECT * FROM students WHERE grade < 12")
+    # binding.pry
+    rows.each do |r|
+      s << self.new_from_db(r)
+    end
+    s
+  end
+  
+  def self.first_X_students_in_grade_10(num)
+    DB[:conn].execute("SELECT * FROM students WHERE grade = 10 LIMIT ?", num)
+  end
+  
+  def self.first_student_in_grade_10
+    row = DB[:conn].execute("SELECT * FROM students WHERE grade = 10 LIMIT 1")
+    s = self.new_from_db(row[0])
+    s
+  end  
+  
+  def self.all_students_in_grade_X(num)
+    DB[:conn].execute("SELECT * FROM students WHERE grade = ?", num)
+  end
+  
 end
