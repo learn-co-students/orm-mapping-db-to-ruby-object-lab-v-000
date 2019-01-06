@@ -75,9 +75,15 @@ class Student
     s
   end
   
-  def self.first_X_stuents_in_grade_10(num)
-    
+  def self.first_X_students_in_grade_10(num)
+    DB[:conn].execute("SELECT * FROM students WHERE grade = 10 LIMIT ?", num)
   end
+  
+  def self.first_student_in_grade_10
+    row = DB[:conn].execute("SELECT * FROM students WHERE grade = 10 LIMIT 1")
+    s = self.new_from_db(row[0])
+    s
+  end  
   
   def self.all_students_in_grade_x
   
