@@ -1,8 +1,13 @@
+require 'pry'
 class Student
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
-    # create a new Student object given a row from the database
+    s = self.new
+    s.id = row[0]
+    s.name = row[1]
+    s.grade = row[2]
+    s
   end
 
   def self.all
@@ -12,7 +17,15 @@ class Student
 
   def self.find_by_name(name)
     # find the student in the database given a name
+    row = DB[:conn].execute("SELECT * FROM students WHERE students.name = ?", name)
     # return a new instance of the Student class
+    s = self.new
+      row.each do |r|
+        s.id=r[0]
+        s.name=r[1]
+        s.grade=r[2]
+      end
+    s
   end
   
   def save
