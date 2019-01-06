@@ -2,6 +2,8 @@ require 'pry'
 class Student
   attr_accessor :id, :name, :grade
 
+@@all = []
+
   def self.new_from_db(row)
     s = self.new
     s.id = row[0]
@@ -12,7 +14,12 @@ class Student
 
   def self.all
     # retrieve all the rows from the "Students" database
+    s_arr = DB[:conn].execute("SELECT * FROM students")
     # remember each row should be a new instance of the Student class
+    s_arr.each do |s|
+      @@all << self.new_from_db(s)
+    end
+    @@all
   end
 
   def self.find_by_name(name)
@@ -53,4 +60,27 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+  
+  def self.all_students_in_grade_9
+    DB[:conn].execute("SELECT * FROM students WHERE grade = 9")
+  end
+  
+  def self.students_below_12th_grade
+    s = []
+    rows = DB[:conn].execute("SELECT * FROM students WHERE grade < 12")
+    # binding.pry
+    rows.each do |r|
+      s << self.new_from_db(r)
+    end
+    s
+  end
+  
+  def self.first_x_stuents_in_grade_10
+    
+  end
+  
+  def self.all_students_in_grade_x
+  
+  end
+  
 end
