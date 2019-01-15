@@ -96,6 +96,7 @@ describe Student do
 
         all_in_9 = Student.all_students_in_grade_9
         expect(all_in_9.size).to eq(1)
+        expect(all_in_9.first.name).to eq("Sam")
       end
     end
 
@@ -145,6 +146,7 @@ describe Student do
 
         first_X_students = Student.first_X_students_in_grade_10(2)
         expect(first_X_students.size).to eq(2)
+        expect(first_X_students.first.name).to eq("Pat")
       end
     end
 
