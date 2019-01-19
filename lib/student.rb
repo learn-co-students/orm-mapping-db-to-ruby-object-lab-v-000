@@ -65,7 +65,7 @@ class Student
 
   def self.all_students_in_grade_9
     sql = <<-SQL
-      SELECT * FROM students
+      SELECT * FROM Students
       WHERE grade = 9
     SQL
 
@@ -76,7 +76,7 @@ class Student
 
   def self.students_below_12th_grade
     sql = <<-SQL
-      SELECT * FROM students
+      SELECT * FROM Students
       WHERE grade IS NOT 12
     SQL
 
@@ -87,7 +87,7 @@ class Student
 
   def self.first_X_students_in_grade_10(num)
     sql = <<-SQL
-      SELECT * FROM students
+      SELECT * FROM Students
       WHERE grade = 10
       LIMIT ?
     SQL
@@ -99,7 +99,7 @@ class Student
 
   def self.first_student_in_grade_10
     sql = <<-SQL
-      SELECT * FROM students
+      SELECT * FROM Students
       WHERE grade = 10
       LIMIT 1
     SQL
@@ -111,7 +111,7 @@ class Student
 
   def self.all_students_in_grade_X(grade)
     sql = <<-SQL
-      SELECT * FROM students
+      SELECT * FROM Students
       WHERE grade = ?
     SQL
 
