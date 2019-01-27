@@ -76,7 +76,6 @@ class Student
   end
   
   def self.students_below_12th_grade
-    #binding.pry
     sql = <<-SQL
       SELECT * 
       FROM students
@@ -88,23 +87,14 @@ class Student
     end
   end
   
-  def self.first_x_students_in_grade_10(num_of_students)
-    #first 3 students in grade 10
-    sql = <<- SQL 
+  def self.first_x_students_in_grade_10(student_count)
+    sql = <<-SQL 
       SELECT *
       FROM students
       WHERE grade = 10
-    SQL 
-    
-    DB[:conn].execute(sql)."#{num_of_students}".times.map do |row|
-      
-    end
-    # sql = <<-SQL
-    #   SELECT *
-    #   FROM students
-    #   WHERE grade = 10
-    # SQL
-    # DB[:conn].execute(sql).map do |row|
+    SQL
+    binding.pry
+    # DB[:conn].execute(sql).student_count.times.map do |row|
     #   self.new_from_db(row)
     # end
   end
@@ -122,7 +112,7 @@ class Student
     end.first
   end
   
-  # def self.all_students_in_grade_x(grade) 
+  def self.all_students_in_grade_x(grade) 
     
-  # end
+  end
 end
