@@ -87,16 +87,17 @@ class Student
     end
   end
   
-  def self.first_x_students_in_grade_10(student_count)
+  def self.first_X_students_in_grade_10(student_count)
+    first_x = student_count
     sql = <<-SQL 
       SELECT *
       FROM students
       WHERE grade = 10
     SQL
-    binding.pry
-    # DB[:conn].execute(sql).student_count.times.map do |row|
-    #   self.new_from_db(row)
-    # end
+    
+    DB[:conn].execute(sql).collect do |row|
+      self.new_from_db(row)
+    end.first(first_x)
   end
   
   def self.first_student_in_grade_10
@@ -112,7 +113,14 @@ class Student
     end.first
   end
   
-  def self.all_students_in_grade_x(grade) 
+  def self.all_students_in_grade_X(grade)
+    sql = <<-SQL
+      SELECT *
+      FROM students
+    SQL
     
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
   end
 end
