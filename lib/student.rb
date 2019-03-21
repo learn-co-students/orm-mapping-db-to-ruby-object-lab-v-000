@@ -2,7 +2,10 @@ class Student
   attr_accessor :id, :name, :grade
 
   def self.new_from_db(row)
-    # create a new Student object given a row from the database
+    new_song = self.new
+    new_song.id = row[0]
+    new_song.name = row[1]
+    new_song.grade = row[2]
   end
 
   def self.all
@@ -14,16 +17,16 @@ class Student
     # find the student in the database given a name
     # return a new instance of the Student class
   end
-  
+
   def save
     sql = <<-SQL
-      INSERT INTO students (name, grade) 
+      INSERT INTO students (name, grade)
       VALUES (?, ?)
     SQL
 
     DB[:conn].execute(sql, self.name, self.grade)
   end
-  
+
   def self.create_table
     sql = <<-SQL
     CREATE TABLE IF NOT EXISTS students (
