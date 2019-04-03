@@ -1,13 +1,14 @@
 require 'pry' 
 class Student
   attr_accessor :id, :name, :grade
+  @@all = []
 
   def self.new_from_db(row)
     new_student = self.new 
     new_student.id = row[0]
     new_student.name = row[1]
     new_student.grade = row[2]
-    new_student
+    new_student 
   end
 
   def self.all
@@ -15,8 +16,10 @@ class Student
       SELECT *
       FROM students 
     SQL
-    @all = self.new_from_db(sql)
-    binding.pry 
+    DB[:conn].execute(sql).each do |row|
+      @@all << self.new_from_db(row)
+    end 
+    @@all 
   end
 
   def self.find_by_name(name)
@@ -75,5 +78,15 @@ class Student
     students = []
     students << student 
     return students 
-  end 
+  end
+  
+  def self.first_X_students_in_grade_10(num)
+    sql = "SELECT *
+    FROM students
+    WHERE grade = 10 
+    LIMIT ?"
+    DB[:conn].execute(sql, num)
+  end
+  
+  
 end
