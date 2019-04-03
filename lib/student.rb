@@ -1,3 +1,4 @@
+require 'pry' 
 class Student
   attr_accessor :id, :name, :grade
 
@@ -10,13 +11,26 @@ class Student
   end
 
   def self.all
-    # retrieve all the rows from the "Students" database
-    # remember each row should be a new instance of the Student class
+    sql = <<-SQL
+      SELECT *
+      FROM students 
+    SQL
+    @all = self.new_from_db(sql)
+    binding.pry 
   end
 
   def self.find_by_name(name)
-    # find the student in the database given a name
-    # return a new instance of the Student class
+    sql = <<-SQL
+      SELECT *
+      FROM students
+      WHERE name = ?
+      LIMIT 1
+    SQL
+     
+    DB[:conn].execute(sql, name).map do |row|
+      self.new_from_db(row)
+    end.first
+    
   end
   
   def save
@@ -44,4 +58,22 @@ class Student
     sql = "DROP TABLE IF EXISTS students"
     DB[:conn].execute(sql)
   end
+  
+  def self.all_students_in_grade_9
+    sql =  "SELECT *
+      FROM students
+      WHERE grade = 9"
+      student = DB[:conn].execute(sql)
+  end
+  
+  def self.students_below_12th_grade
+    sql = "SELECT *
+    FROM students
+    WHERE grade IS NOT 12"
+    student_info = DB[:conn].execute(sql)
+    student = self.new_from_db(student_info[0])
+    students = []
+    students << student 
+    return students 
+  end 
 end
