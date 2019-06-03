@@ -180,11 +180,11 @@ describe Student do
         sam.grade = 10
         sam.save
         jess.name = "Jess"
-        jess.grade = 10
+        jess.grade = 12
         jess.save
 
         tenth_grade = Student.all_students_in_grade_X(10)
-        expect(tenth_grade.size).to eq(3)
+        expect(tenth_grade.size).to eq(2)
       end
     end
   end
