@@ -86,7 +86,7 @@ DB[:conn].execute(sql).map do |row|
 end
 end
 
-def self.first_X_students_in_grade_10(?)
+def self.first_X_students_in_grade_10(number)
   sql = <<-SQL
  SELECT *
  FROM students
@@ -94,7 +94,7 @@ def self.first_X_students_in_grade_10(?)
  LIMIT  ?
 SQL
 
-DB[:conn].execute(sql).map do |row|
+DB[:conn].execute(sql, number).map do |row|
  self.new_from_db(row)
 end
 end
