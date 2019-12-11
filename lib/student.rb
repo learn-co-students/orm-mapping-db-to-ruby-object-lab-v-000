@@ -36,7 +36,6 @@ class Student
       INSERT INTO students (name, grade) 
       VALUES (?, ?)
     SQL
-
     DB[:conn].execute(sql, self.name, self.grade)
   end
   
@@ -48,7 +47,6 @@ class Student
       grade TEXT
     )
     SQL
-
     DB[:conn].execute(sql)
   end
 
@@ -58,23 +56,33 @@ class Student
   end
   
   def self.all_students_in_grade_9
-    sql = "SELECT * FROM students WHERE students.grade = 9"
+    sql = "SELECT name FROM students WHERE students.grade = 9"
     DB[:conn].execute(sql)
   end
   
    def self.students_below_12th_grade
-    sql = "SELECT * FROM students WHERE students.grade <= 11"
-    DB[:conn].execute(sql)
+    sql = "SELECT * FROM students WHERE students.grade < 11"
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end
   end
   
   def self.first_X_students_in_grade_10(x)
     sql = "SELECT * FROM students WHERE students.grade = 10 LIMIT ?"
-    DB[:conn].execute(sql, x)
+    DB[:conn].execute(sql, x).map do |row|
+      self.new_from_db(row)
+    end
   end
   
   def self.all_students_in_grade_X(x)
     sql = "SELECT * FROM students WHERE students.grade = ?"
     DB[:conn].execute(sql, x)
   end
-    
+  
+  def self.first_student_in_grade_10 
+    sql = "SELECT * FROM students WHERE students.grade = 10 LIMIT 1"
+    DB[:conn].execute(sql).map do |row|
+      self.new_from_db(row)
+    end.first
+  end
 end
