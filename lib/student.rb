@@ -10,8 +10,8 @@ class Student
     student
   end
 
-    # retrieve all the rows from the "Students" database
-    # remember each row should be a new instance of the Student class
+    # retrieve all rows from "Students" database
+    #  each row should be a new instance of the Student class
   def self.all
     sql = <<-SQL
       SELECT * 
